@@ -1,0 +1,45 @@
+# Recommended Tech Stacks for 2026 (Student Focus)
+
+This list is curated for the FicLance platform, focusing on the most relevant, high-demand, and student-friendly technologies for web development projects in 2026.
+
+## 1. Next.js (with App Router)
+*   **What**: A powerful React framework for building full-stack web applications.
+*   **Why**: By 2026, Next.js will be the absolute standard for React development. Its "App Router" and "Server Actions" simplify the boundary between frontend and backend, allowing students to build complex features with less boilerplate. It provides built-in SEO, performance optimization, and easy scaling.
+
+## 2. TypeScript
+*   **What**: A strongly typed superset of JavaScript.
+*   **Why**: TypeScript is no longer "optional" in professional environments. In 2026, projects without types will be considered legacy. It helps students catch bugs early, provides superior IDE autocompletion, and makes code much more maintainable as project complexity grows.
+
+## 3. Tailwind CSS v4+
+*   **What**: A utility-first CSS framework.
+*   **Why**: Tailwind has revolutionized how we style web apps. Version 4 and beyond focus on even better performance and simplified configuration. It allows students to build beautiful, responsive UIs rapidly without writing thousands of lines of custom CSS.
+
+## 4. TanStack Query (React Query)
+*   **What**: An asynchronous state management library for fetching, caching, and updating data.
+*   **Why**: Handling API states (loading, error, caching) is one of the hardest parts of web development. TanStack Query makes this trivial. It's the standard way to interact with backends in modern React apps, teaching students professional data-fetching patterns.
+
+## 5. Zustand
+*   **What**: A small, fast, and scalable bear-bones state management solution.
+*   **Why**: Unlike the complex Redux of the past, Zustand offers a simple and intuitive API. It's perfect for student projects that need global state (like user auth or shopping carts) without the steep learning curve of other libraries. (Already used in FicLance!)
+
+## 6. Supabase (PostgreSQL)
+*   **What**: An open-source Firebase alternative providing a Backend-as-a-Service.
+*   **Why**: It provides a real PostgreSQL database, Authentication, and Storage with zero configuration. For students, this means they can focus on building features rather than wrestling with server setup. PostgreSQL knowledge is also highly transferable to any backend role.
+
+## 7. AI API Integration (OpenAI / Anthropic)
+*   **What**: Incorporating Large Language Models into applications.
+*   **Why**: By 2026, every "smart" application will have AI components. Learning how to prompt and integrate these APIs is a critical skill for the future workforce. It allows students to build features like chatbots, automated content generation, and smart search.
+
+## 8. Framer Motion (motion/react)
+*   **What**: A production-ready motion library for React.
+*   **Why**: Modern web design is all about "feel" and "feedback." Framer Motion allows students to add high-quality animations with minimal code, making their projects stand out in portfolios. (Already used in FicLance!)
+
+## 9. Socket.io (WebSockets)
+*   **What**: A library for real-time, bi-directional communication between web clients and servers.
+*   **Why**: Projects like chat apps, live collaboration tools, and notification systems require real-time updates. Real-time features are "wow" factors in student projects.
+
+---
+
+### Why these for the FicLance Filter?
+
+Adding these to the `FilterStepper.jsx` will allow students to specifically search for projects that use these modern tools. Instead of just searching for "JavaScript," they can search for "Full-stack AI App" or "Next.js Dashboard," which better reflects the projects they will actually encounter in 2026.

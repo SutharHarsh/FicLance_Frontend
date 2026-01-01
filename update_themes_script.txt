@@ -1,0 +1,64 @@
+THEME UPDATE GUIDE - Apply these changes to remaining themes (09-13):
+
+FOR EACH THEME FILE:
+
+1. IMPORTS (add after existing imports):
+```javascript
+import {
+  getUserData,
+  getProjectsData,
+  getSkillsData,
+  getContactData,
+  getProfessionalData,
+  getStatsData,
+  formatDate,
+  getProjectStatusColor,
+  getInitials,
+} from "@/utils/portfolioHelpers";
+```
+
+2. COMPONENT SIGNATURE:
+Replace: `export default function ThemeName() {`
+With: `export default function ThemeName({ data }) {`
+
+3. DATA EXTRACTION (add at start of component):
+```javascript
+const user = getUserData(data);
+const projects = getProjectsData(data);
+const skills = getSkillsData(data);
+const contact = getContactData(data);
+const professional = getProfessionalData(data);
+const stats = getStatsData(data);
+
+const displayProjects = projects.slice(0, 3);
+```
+
+4. DELETE: All `const MOCK_DATA = {...}` declarations
+
+5. REPLACE PATTERNS:
+- `data.user.name` → `user.name`
+- `data.user.role` → `user.role`
+- `data.user.bio` → `user.bio`
+- `data.user.tagline` → `user.tagline || user.bio`
+- `data.user.avatar` → `getInitials(user.name)`
+- `data.projects` → `displayProjects`
+- `data.stats` → `stats`
+- `data.skills` → `skills.all` or `skills.primary`
+- `data.contact.email` → `contact.email`
+- `project.client` → `project.status`
+- `project.year` → `formatDate(project.createdAt)`
+- `project.impact` → `project.description`
+- `project.tech` → `project.tags || skills.primary.slice(0, 3)`
+
+6. ADD CONDITIONALS:
+```javascript
+{contact.email && <a href={`mailto:${contact.email}`}>...</a>}
+{displayProjects.length > 0 ? (...) : <p>No projects yet</p>}
+```
+
+REMAINING THEMES TO UPDATE:
+- Theme09_TechShowcase.jsx (partially done - needs data references updated)
+- Theme10_UltraModern.jsx (partially done - needs data references updated)  
+- Theme11_CorporateExecutive.jsx (partially done - needs data references updated)
+- Theme12_ArtisticSoul.jsx (not started)
+- Theme13_StartupFounder.jsx (not started)
