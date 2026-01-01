@@ -161,7 +161,7 @@ export default function ProfilePage() {
           {/* Header intentionally left minimal/empty or serves as a blur backdrop */}
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8">
           {/* Breadcrumb Navigation - Text Only & Below Header */}
           <nav
             className="flex items-center text-sm mb-8"
@@ -177,11 +177,11 @@ export default function ProfilePage() {
             <span className="text-foreground font-semibold">Profile</span>
           </nav>
           {/* Hero Profile Section - Redesigned with Glassmorphism */}
-          <div className="relative mb-16">
+          <div className="relative mb-8 sm:mb-16">
             {/* Soft gradient background */}
             <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-purple-500/5 to-pink-500/5 rounded-3xl blur-3xl -z-10" />
 
-            <div className="relative bg-card/50 backdrop-blur-sm border border-border/50 rounded-2xl p-8 md:p-12 shadow-xl">
+            <div className="relative bg-card/50 backdrop-blur-sm border border-border/50 rounded-2xl p-4 sm:p-8 md:p-12 shadow-xl">
               <ProfileOverview
                 profile={profile}
                 onAvatarUpdate={handleAvatarUpdate}
@@ -190,10 +190,11 @@ export default function ProfilePage() {
           </div>
 
           {/* Product-Style Navigation with Action Button */}
-          <div className="mb-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-            <nav className="relative">
+          <div className="mb-12 flex flex-col items-stretch gap-4">
+            {/* Scrollable tab navigation for mobile */}
+            <nav className="relative w-full overflow-x-auto no-scrollbar">
               {/* Floating tab bar */}
-              <div className="inline-flex items-center gap-1 p-1.5 bg-secondary/50 backdrop-blur-sm rounded-2xl border border-border/50 shadow-lg">
+              <div className="inline-flex items-center gap-1 p-1.5 bg-secondary/50 backdrop-blur-sm rounded-2xl border border-border/50 shadow-lg min-w-full sm:min-w-0">
                 {tabs.map((tab) => {
                   const Icon = tab.icon;
                   const isActive = activeTab === tab.id;
@@ -202,7 +203,7 @@ export default function ProfilePage() {
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id)}
                       className={`
-                      relative flex items-center gap-2 px-4 py-2.5 rounded-xl font-medium text-sm transition-all duration-200
+                      relative flex items-center gap-2 px-3 sm:px-4 py-2.5 rounded-xl font-medium text-xs sm:text-sm transition-all duration-200 flex-shrink-0
                       ${
                         isActive
                           ? "bg-background text-foreground shadow-md"
@@ -214,7 +215,7 @@ export default function ProfilePage() {
                         size={16}
                         className={isActive ? "text-primary" : ""}
                       />
-                      <span className="hidden sm:inline whitespace-nowrap">
+                      <span className="whitespace-nowrap">
                         {tab.label}
                       </span>
 
@@ -228,10 +229,10 @@ export default function ProfilePage() {
               </div>
             </nav>
 
-            {/* Edit Mode Toggle - Separated from Tabs */}
+            {/* Edit Mode Toggle - Full width on mobile */}
             <button
               onClick={() => setIsEditing(!isEditing)}
-              className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium text-sm transition-all shadow-lg ${
+              className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-medium text-sm transition-all shadow-lg sm:self-end ${
                 isEditing
                   ? "bg-red-500 hover:bg-red-600 text-white shadow-red-200 dark:shadow-red-900/20"
                   : "bg-primary hover:bg-blue-700 text-white shadow-blue-200 dark:shadow-blue-900/20"

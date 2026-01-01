@@ -178,10 +178,10 @@ export default function UserProjects() {
       {/* Refined Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-foreground mb-1">
+          <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-1">
             Project Showcase
           </h2>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-xs sm:text-sm text-muted-foreground">
             {projects.length} {projects.length === 1 ? "project" : "projects"}{" "}
             in progress
           </p>
@@ -192,10 +192,10 @@ export default function UserProjects() {
 
           <a
             href="/new-project"
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded-xl hover:bg-blue-600 transition-all shadow-md hover:shadow-lg text-sm font-medium"
+            className="inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 bg-primary text-white rounded-xl hover:bg-blue-600 transition-all shadow-md hover:shadow-lg text-xs sm:text-sm font-medium"
           >
-            <Plus size={18} />
-            <span className="hidden sm:inline">New Project</span>
+            <Plus size={16} className="sm:w-[18px] sm:h-[18px]" />
+            <span>New Project</span>
           </a>
         </div>
       </div>
@@ -211,7 +211,7 @@ export default function UserProjects() {
           return (
             <div
               key={project._id}
-              className="group relative overflow-hidden bg-gradient-to-br from-card/80 to-card/50 backdrop-blur-sm rounded-2xl border border-border/50 hover:border-primary/30 p-6 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"
+              className="group relative overflow-hidden bg-gradient-to-br from-card/80 to-card/50 backdrop-blur-sm rounded-2xl border border-border/50 hover:border-primary/30 p-4 sm:p-6 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"
             >
               {/* Subtle gradient overlay on hover */}
               <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 to-purple-500/0 group-hover:from-blue-500/5 group-hover:to-purple-500/5 transition-all duration-500 rounded-2xl" />
@@ -220,11 +220,11 @@ export default function UserProjects() {
                 {/* Header */}
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex-1 min-w-0 pr-3">
-                    <h3 className="font-bold text-foreground text-lg mb-2 group-hover:text-primary transition-colors truncate">
+                    <h3 className="font-bold text-foreground text-base sm:text-lg mb-2 group-hover:text-primary transition-colors truncate">
                       {project.title}
                     </h3>
                     {project.description && (
-                      <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
+                      <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2 leading-relaxed">
                         {project.description}
                       </p>
                     )}

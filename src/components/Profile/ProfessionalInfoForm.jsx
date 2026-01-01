@@ -509,8 +509,8 @@ export default function ProfessionalInfoForm({
           </div>
 
           {/* Submit Button */}
-          <div className="flex items-center justify-between pt-8 border-t border-border">
-            <div>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0 pt-6 sm:pt-8 border-t border-border">
+            <div className="order-2 sm:order-1">
               {saveStatus === "success" && (
                 <p className="text-green-600 text-sm flex items-center gap-2 font-medium">
                   <Check size={16} className="flex-shrink-0" />
@@ -528,7 +528,7 @@ export default function ProfessionalInfoForm({
             <button
               type="submit"
               disabled={isSaving}
-              className="flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium text-sm"
+              className="order-1 sm:order-2 w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium text-sm"
             >
               {isSaving ? (
                 <>

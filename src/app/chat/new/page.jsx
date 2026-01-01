@@ -49,6 +49,15 @@ function NewProjectPageContent() {
           return value; // Default to days
         };
 
+        // Normalize expertise - "Shuffle" or "All" means no expertise filter
+        const normalizeExpertise = (expertise) => {
+          if (!expertise) return "intermediate";
+          const lower = expertise.toLowerCase();
+          if (lower === "shuffle" || lower === "all") return "intermediate"; // Default to intermediate for shuffle
+          if (["beginner", "intermediate", "advanced"].includes(lower)) return lower;
+          return "intermediate"; // Fallback
+        };
+
         const payload = {
           projectTemplateId: projectData.projectId,
           projectName: projectData.ProjectName,
@@ -57,7 +66,7 @@ function NewProjectPageContent() {
             skills: Array.isArray(projectData.TechStack)
               ? projectData.TechStack
               : [],
-            expertise: projectData.Expertise?.toLowerCase() || "intermediate",
+            expertise: normalizeExpertise(projectData.Expertise),
             durationDays: parseDurationToDays(projectData.Duration),
           },
         };
@@ -90,18 +99,31 @@ function NewProjectPageContent() {
       } catch (error) {
         console.error("Error initializing project:", error);
         
-        // Extract error message from API response
-        const errorMessage = error.response?.data?.message || 
-                           error.response?.data?.error || 
-                           error.message || 
-                           "Failed to start simulation";
+        // Extract error message from API response - ensure it's always a string
+        let errorMessage = "Failed to start simulation";
+        
+        if (error.response?.data) {
+          // Try multiple possible error fields
+          errorMessage = String(error.response.data.message || 
+                              error.response.data.error || 
+                              error.response.data.userMessage || 
+                              "Failed to start simulation");
+        } else if (error.message) {
+          errorMessage = String(error.message);
+        }
         
         // Show error toast with longer duration for limit errors
-        if (error.response?.status === 403) {
+        if (error.response?.status === 403 || error.response?.status === 401) {
           toast.error(errorMessage, {
             duration: 6000,
-            description: "Please check your active projects on the dashboard.",
+            description: "Please sign in again or check your session.",
           });
+          
+          // If token expired, redirect to login
+          if (errorMessage.toLowerCase().includes("token") || errorMessage.toLowerCase().includes("expired")) {
+            setTimeout(() => router.replace("/auth/login"), 2000);
+            return;
+          }
         } else {
           toast.error(errorMessage);
         }

@@ -82,13 +82,13 @@ export default function SecuritySettings({ profile }) {
 
   return (
     <>
-      <div className="bg-card rounded-lg shadow-sm border border-border p-6">
-        <div className="mb-6">
-          <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
-            <Shield size={24} />
+      <div className="bg-card rounded-lg shadow-sm border border-border p-4 sm:p-6">
+        <div className="mb-4 sm:mb-6">
+          <h2 className="text-lg sm:text-xl font-semibold text-foreground flex items-center gap-2">
+            <Shield size={20} className="sm:w-6 sm:h-6" />
             Account & Security
           </h2>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-xs sm:text-sm text-muted-foreground mt-1">
             Manage your authentication and account security
           </p>
         </div>

@@ -5,7 +5,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import useSimulationStore from "@/store/useSimulationStore";
 import api from "@/lib/api";
 import { useRouter, usePathname } from "next/navigation";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaArrowLeft, FaTh } from "react-icons/fa";
 
 // Skeleton Loader Component
 const ConversationSkeleton = () => (
@@ -114,6 +114,25 @@ export default function ConversationList({ onItemClick }) {
 
   return (
     <div className="w-full h-full dark:bg-background bg-card border-r border-border flex flex-col">
+      {/* Mobile-only header with back button */}
+      <div className="sm:hidden p-3 border-b border-border flex items-center gap-3 bg-card">
+        <button
+          onClick={() => router.push('/dashboard')}
+          className="p-2 hover:bg-secondary rounded-lg transition-colors flex items-center justify-center"
+          aria-label="Back to Dashboard"
+        >
+          <FaArrowLeft className="text-foreground text-lg" />
+        </button>
+        <h2 className="text-lg font-semibold text-foreground flex-1">Conversations</h2>
+        <button
+          onClick={() => router.push('/dashboard')}
+          className="p-2 hover:bg-secondary rounded-lg transition-colors flex items-center justify-center"
+          aria-label="Dashboard"
+        >
+          <FaTh className="text-foreground text-lg" />
+        </button>
+      </div>
+
       <div className="p-3 sm:p-4 border-b border-border flex-shrink-0">
         <div className="relative">
           <input

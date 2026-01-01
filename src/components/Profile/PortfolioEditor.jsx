@@ -159,32 +159,32 @@ export default function PortfolioEditor({ user, onUpdate }) {
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-8">
+      <div className="grid lg:grid-cols-3 gap-6 sm:gap-8">
         {/* Theme Selection */}
-        <div className="lg:col-span-2 space-y-6">
-          <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-            <h3 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
-              <Layout className="w-5 h-5 text-indigo-600" />
+        <div className="lg:col-span-2 space-y-4 sm:space-y-6">
+          <div className="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200 shadow-sm">
+            <h3 className="text-base sm:text-lg font-bold text-slate-900 mb-4 sm:mb-6 flex items-center gap-2">
+              <Layout className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-600" />
               Selected Theme
             </h3>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 gap-3 sm:gap-4">
               {THEMES.map((theme) => (
                 <button
                   key={theme.id}
                   onClick={() =>
                     setPortfolio({ ...portfolio, themeId: theme.id })
                   }
-                  className={`relative p-4 rounded-2xl border-2 transition-all group overflow-hidden ${
+                  className={`relative p-3 sm:p-4 rounded-2xl border-2 transition-all group overflow-hidden ${
                     portfolio.themeId === theme.id
                       ? "border-blue-600 bg-blue-50/50"
                       : "border-slate-100 hover:border-slate-200"
                   }`}
                 >
                   <div
-                    className={`w-full h-20 rounded-lg mb-3 ${theme.color} opacity-80 group-hover:opacity-100 transition-opacity`}
+                    className={`w-full h-16 sm:h-20 rounded-lg mb-2 sm:mb-3 ${theme.color} opacity-80 group-hover:opacity-100 transition-opacity`}
                   ></div>
-                  <div className="text-sm font-bold text-slate-900">
+                  <div className="text-xs sm:text-sm font-bold text-slate-900">
                     {theme.name}
                   </div>
                   {portfolio.themeId === theme.id && (

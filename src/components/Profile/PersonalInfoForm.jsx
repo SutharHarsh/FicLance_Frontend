@@ -156,17 +156,17 @@ export default function PersonalInfoForm({
         /* VIEW MODE - Professional Read-only display */
         <div className="space-y-6">
           {/* Username Card */}
-          <div className="group relative overflow-hidden bg-gradient-to-br from-blue-50/50 to-purple-50/50 dark:from-blue-950/20 dark:to-purple-950/20 border border-border/50 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
+          <div className="group relative overflow-hidden bg-gradient-to-br from-blue-50/50 to-purple-50/50 dark:from-blue-950/20 dark:to-purple-950/20 border border-border/50 rounded-xl p-4 sm:p-6 hover:shadow-lg transition-all duration-300">
             <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
-            <div className="relative flex items-start gap-4">
-              <div className="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
-                <User size={24} className="text-primary" />
+            <div className="relative flex items-start gap-3 sm:gap-4">
+              <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+                <User size={20} className="text-primary sm:w-6 sm:h-6" />
               </div>
               <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-semibold text-muted-foreground mb-1">
+                <h3 className="text-xs sm:text-sm font-semibold text-muted-foreground mb-1">
                   Username
                 </h3>
-                <p className="text-xl font-bold text-foreground truncate">
+                <p className="text-lg sm:text-xl font-bold text-foreground truncate">
                   {formData.username || (
                     <span className="text-muted-foreground/50 text-base font-normal italic">
                       Not set
@@ -178,15 +178,15 @@ export default function PersonalInfoForm({
           </div>
 
           {/* Bio Card */}
-          <div className="group relative overflow-hidden bg-gradient-to-br from-green-50/30 to-emerald-50/30 dark:from-green-950/10 dark:to-emerald-950/10 border border-border/50 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
+          <div className="group relative overflow-hidden bg-gradient-to-br from-green-50/30 to-emerald-50/30 dark:from-green-950/10 dark:to-emerald-950/10 border border-border/50 rounded-xl p-4 sm:p-6 hover:shadow-lg transition-all duration-300">
             <div className="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-tr from-green-400/5 to-emerald-400/5 rounded-full blur-2xl translate-y-1/2 -translate-x-1/2" />
             <div className="relative">
-              <div className="flex items-center gap-2 mb-3">
-                <div className="w-1 h-6 bg-gradient-to-b from-green-500 to-emerald-500 rounded-full" />
-                <h3 className="text-sm font-semibold text-foreground">Bio</h3>
+              <div className="flex items-center gap-2 mb-2 sm:mb-3">
+                <div className="w-1 h-5 sm:h-6 bg-gradient-to-b from-green-500 to-emerald-500 rounded-full" />
+                <h3 className="text-xs sm:text-sm font-semibold text-foreground">Bio</h3>
               </div>
               {formData.bio ? (
-                <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap border-l-2 border-muted pl-4 italic">
+                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed whitespace-pre-wrap border-l-2 border-muted pl-3 sm:pl-4 italic">
                   "{formData.bio}"
                 </p>
               ) : (
@@ -198,24 +198,25 @@ export default function PersonalInfoForm({
           </div>
 
           {/* Skills Card */}
-          <div className="group relative overflow-hidden bg-card border border-border/50 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
+          <div className="group relative overflow-hidden bg-card border border-border/50 rounded-xl p-4 sm:p-6 hover:shadow-lg transition-all duration-300">
             <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-purple-400/5 to-pink-400/5 rounded-full blur-2xl translate-y-1/2 translate-x-1/2" />
             <div className="relative">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+              <div className="flex items-center justify-between mb-3 sm:mb-4">
+                <h3 className="text-xs sm:text-sm font-semibold text-foreground flex items-center gap-2">
                   <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-                  Skills & Technologies
+                  <span className="hidden sm:inline">Skills & Technologies</span>
+                  <span className="sm:hidden">Skills</span>
                 </h3>
                 <span className="text-xs font-medium px-2 py-1 bg-primary/10 text-primary rounded-full">
-                  {formData.skills.length} skills
+                  {formData.skills.length}
                 </span>
               </div>
               {formData.skills.length > 0 ? (
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-1.5 sm:gap-2">
                   {formData.skills.map((skill, index) => (
                     <div
                       key={index}
-                      className="group/skill relative inline-flex items-center px-4 py-2 bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20 text-primary rounded-lg text-sm font-medium shadow-sm hover:shadow-md hover:scale-105 transition-all duration-200"
+                      className="group/skill relative inline-flex items-center px-3 sm:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20 text-primary rounded-lg text-xs sm:text-sm font-medium shadow-sm hover:shadow-md hover:scale-105 transition-all duration-200"
                     >
                       <div className="absolute inset-0 bg-gradient-to-r from-primary/0 to-primary/10 rounded-lg opacity-0 group-hover/skill:opacity-100 transition-opacity" />
                       <span className="relative">{skill}</span>
@@ -231,15 +232,15 @@ export default function PersonalInfoForm({
           </div>
 
           {/* Experience Level Card */}
-          <div className="group relative overflow-hidden bg-gradient-to-br from-orange-50/30 to-amber-50/30 dark:from-orange-950/10 dark:to-amber-950/10 border border-border/50 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
+          <div className="group relative overflow-hidden bg-gradient-to-br from-orange-50/30 to-amber-50/30 dark:from-orange-950/10 dark:to-amber-950/10 border border-border/50 rounded-xl p-4 sm:p-6 hover:shadow-lg transition-all duration-300">
             <div className="absolute top-0 left-0 w-24 h-24 bg-gradient-to-br from-orange-400/10 to-amber-400/10 rounded-full blur-2xl -translate-y-1/2 -translate-x-1/2" />
             <div className="relative">
-              <h3 className="text-sm font-semibold text-muted-foreground mb-3">
+              <h3 className="text-xs sm:text-sm font-semibold text-muted-foreground mb-2 sm:mb-3">
                 Experience Level
               </h3>
-              <div className="flex items-center gap-4">
-                <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-orange-500 to-amber-500 rounded-xl flex items-center justify-center shadow-lg">
-                  <span className="text-white font-bold text-lg">
+              <div className="flex items-center gap-3 sm:gap-4">
+                <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-orange-500 to-amber-500 rounded-xl flex items-center justify-center shadow-lg">
+                  <span className="text-white font-bold text-base sm:text-lg">
                     {formData.experienceLevel === "beginner"
                       ? "B"
                       : formData.experienceLevel === "intermediate"
@@ -248,7 +249,7 @@ export default function PersonalInfoForm({
                   </span>
                 </div>
                 <div className="flex-1">
-                  <p className="text-lg font-bold text-foreground capitalize">
+                  <p className="text-base sm:text-lg font-bold text-foreground capitalize">
                     {formData.experienceLevel.replace("-", " ")}
                   </p>
                   <div className="mt-2 h-2 bg-secondary rounded-full overflow-hidden">
@@ -445,8 +446,8 @@ export default function PersonalInfoForm({
           </div>
 
           {/* Submit Button */}
-          <div className="flex items-center justify-between pt-8 border-t border-border">
-            <div>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0 pt-6 sm:pt-8 border-t border-border">
+            <div className="order-2 sm:order-1">
               {saveStatus === "success" && (
                 <p className="text-green-600 text-sm flex items-center gap-2 font-medium">
                   <Check size={16} className="flex-shrink-0" />
@@ -464,8 +465,7 @@ export default function PersonalInfoForm({
             <button
               type="submit"
               disabled={isSaving || isCheckingUsername}
-              className="flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium text-sm"
-            >
+              className="order-1 sm:order-2 w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium text-sm">
               {isSaving ? (
                 <>
                   <Loader size={16} className="animate-spin" />

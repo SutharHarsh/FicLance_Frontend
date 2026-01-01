@@ -85,13 +85,13 @@ export default function ProfileOverview({ profile, onAvatarUpdate }) {
 
   return (
     <div className="relative">
-      <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-start">
+      <div className="flex flex-col items-center sm:items-start sm:flex-row gap-6 sm:gap-8 md:gap-12">
         {/* Avatar Section with Glow Effect */}
         <div className="relative group flex-shrink-0">
           {/* Soft glow ring */}
           <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-pink-500/20 rounded-full blur-2xl group-hover:blur-3xl transition-all duration-500" />
 
-          <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden ring-4 ring-background shadow-2xl">
+          <div className="relative w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-full overflow-hidden ring-4 ring-background shadow-2xl">
             <Image
               src={avatarSrc}
               alt={profile.name || "User avatar"}
@@ -124,14 +124,14 @@ export default function ProfileOverview({ profile, onAvatarUpdate }) {
         </div>
 
         {/* Profile Info - Redesigned as Content, Not Form */}
-        <div className="flex-1 min-w-0">
+        <div className="flex-1 min-w-0 w-full sm:w-auto text-center sm:text-left">
           {/* Name as Headline */}
-          <div className="mb-6">
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground tracking-tight mb-2">
+          <div className="mb-4 sm:mb-6">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground tracking-tight mb-2">
               {profile.name || "Unnamed User"}
             </h1>
             {profile.username && (
-              <p className="text-lg text-muted-foreground">
+              <p className="text-base sm:text-lg text-muted-foreground">
                 @{profile.username}
               </p>
             )}
@@ -139,13 +139,13 @@ export default function ProfileOverview({ profile, onAvatarUpdate }) {
 
           {/* Bio as Content Block */}
           {(profile.about || profile.profile?.bio || profile.bio) && (
-            <p className="text-base text-foreground/80 leading-relaxed max-w-2xl mb-6">
+            <p className="text-sm sm:text-base text-foreground/80 leading-relaxed max-w-2xl mb-4 sm:mb-6">
               {profile.about || profile.profile?.bio || profile.bio}
             </p>
           )}
 
           {/* Product-Style Badges */}
-          <div className="flex flex-wrap gap-2 mb-8">
+          <div className="flex flex-wrap gap-2 mb-6 sm:mb-8 justify-center sm:justify-start">
             {profile.emailVerified && (
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-gradient-to-r from-green-500/10 to-emerald-500/10 text-green-600 dark:text-green-400 border border-green-500/20 shadow-sm">
                 <CheckCircle size={14} />
@@ -176,7 +176,7 @@ export default function ProfileOverview({ profile, onAvatarUpdate }) {
           </div>
 
           {/* Metadata - Minimal & Elegant */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
             <div className="space-y-1">
               <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
                 Email
@@ -207,11 +207,11 @@ export default function ProfileOverview({ profile, onAvatarUpdate }) {
 
           {/* Skills as Visual Showcase */}
           {profile.skills && profile.skills.length > 0 && (
-            <div className="pt-6 border-t border-border/50">
-              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">
+            <div className="pt-4 sm:pt-6 border-t border-border/50">
+              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3 sm:mb-4 text-center sm:text-left">
                 Expertise
               </p>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
                 {profile.skills.slice(0, 8).map((skill, index) => (
                   <span
                     key={index}
