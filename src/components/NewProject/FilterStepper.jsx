@@ -322,11 +322,12 @@ const SKILL_MAP = [
   "React",
   "UI/UX",
   "CSS",
-  "Node",
+  "Node.js",
   "API",
   "HTML",
   "TypeScript",
   "Socket.io",
+  "MongoDB",
 ];
 
 // FLATTENED SKILLS (NO EXPANSION)
