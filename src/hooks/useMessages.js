@@ -35,12 +35,15 @@ export function useMessages(initialMessages, conversationId, user) {
       return;
     }
 
-    const socketInstance = io("http://localhost:8080", {
-      path: "/socket.io",
-      withCredentials: true,
-      auth: { token },
-      transports: ["websocket", "polling"],
-    });
+    const socketInstance = io(
+      process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080",
+      {
+        path: "/socket.io",
+        withCredentials: true,
+        auth: { token },
+        transports: ["websocket", "polling"],
+      }
+    );
 
     socketInstance.on("connect", () => {
       console.log(
