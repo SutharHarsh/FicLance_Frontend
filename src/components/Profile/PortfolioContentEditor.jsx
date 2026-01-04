@@ -69,7 +69,7 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
     const [content, setContent] = useState({
         about: "",
         experiences: [], // [{ company, organization, startDate, endDate, currentlyWorking, description }]
-        manualProjects: [], // [{ name, description, techStack, githubUrl, liveUrl }]
+        manualProjects: [], // [{ name, description, techStack, githubUrl, liveUrl, startDate, endDate, currentlyWorking }]
         skills: [], // ["React", "Node.js", ...]
         contact: {
             phone: "",
@@ -226,7 +226,16 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
         }
         setContent({
             ...content,
-            manualProjects: [...content.manualProjects, { name: "", description: "", techStack: "", githubUrl: "", liveUrl: "" }],
+            manualProjects: [...content.manualProjects, {
+                name: "",
+                description: "",
+                techStack: "",
+                githubUrl: "",
+                liveUrl: "",
+                startDate: "",
+                endDate: "",
+                currentlyWorking: false
+            }],
         });
     };
 
@@ -319,7 +328,7 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
                                 onChange={(e) => setContent({ ...content, about: e.target.value })}
                                 rows={6}
                                 maxLength={500}
-                                className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
+                                className="w-full px-4 py-3 border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-medium placeholder:text-slate-400 dark:placeholder:text-slate-500 shadow-sm"
                                 placeholder="I'm a full-stack developer passionate about creating beautiful web applications..."
                             />
                             <div className="text-right text-xs text-slate-400 mt-1">
@@ -334,8 +343,8 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
                     <div className="space-y-6">
                         <div className="flex items-center justify-between">
                             <div>
-                                <h3 className="text-lg font-bold text-slate-900">Work Experience</h3>
-                                <p className="text-sm text-slate-500 mt-1">
+                                <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100">Work Experience</h3>
+                                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
                                     Add your professional experience, hackathons, or achievements
                                 </p>
                             </div>
@@ -349,17 +358,17 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
                         </div>
 
                         {content.experiences.length === 0 ? (
-                            <div className="text-center py-12 border-2 border-dashed border-slate-200 rounded-2xl">
-                                <Briefcase className="w-12 h-12 text-slate-300 mx-auto mb-3" />
-                                <p className="text-slate-500 font-medium">No experience added yet</p>
-                                <p className="text-sm text-slate-400 mt-1">All fields are optional</p>
+                            <div className="text-center py-12 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-2xl">
+                                <Briefcase className="w-12 h-12 text-slate-300 dark:text-slate-600 mx-auto mb-3" />
+                                <p className="text-slate-500 dark:text-slate-400 font-medium">No experience added yet</p>
+                                <p className="text-sm text-slate-400 dark:text-slate-500 mt-1">All fields are optional</p>
                             </div>
                         ) : (
                             <div className="space-y-4">
                                 {content.experiences.map((exp, idx) => (
-                                    <div key={idx} className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4">
+                                    <div key={idx} className="bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl p-6 space-y-4">
                                         <div className="flex items-center justify-between">
-                                            <h4 className="font-semibold text-slate-700">Experience #{idx + 1}</h4>
+                                            <h4 className="font-semibold text-slate-700 dark:text-slate-300">Experience #{idx + 1}</h4>
                                             <button
                                                 onClick={() => removeExperience(idx)}
                                                 className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
@@ -370,7 +379,7 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
 
                                         <div className="grid grid-cols-2 gap-4">
                                             <div>
-                                                <label className="block text-sm font-medium text-slate-700 mb-1">
+                                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                                                     <Building className="w-3 h-3 inline mr-1" />
                                                     Company Name
                                                 </label>
@@ -378,26 +387,26 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
                                                     type="text"
                                                     value={exp.company}
                                                     onChange={(e) => updateExperience(idx, "company", e.target.value)}
-                                                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                    className="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-medium placeholder:text-slate-400 dark:placeholder:text-slate-500"
                                                     placeholder="Google, Microsoft..."
                                                 />
                                             </div>
                                             <div>
-                                                <label className="block text-sm font-medium text-slate-700 mb-1">
+                                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                                                     Organization/Event
                                                 </label>
                                                 <input
                                                     type="text"
                                                     value={exp.organization}
                                                     onChange={(e) => updateExperience(idx, "organization", e.target.value)}
-                                                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                    className="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-medium placeholder:text-slate-400 dark:placeholder:text-slate-500"
                                                     placeholder="MLH Hackathon, Conference..."
                                                 />
                                             </div>
                                         </div>
 
                                         <div className="space-y-3">
-                                            <label className="block text-sm font-semibold text-slate-900 mb-2">
+                                            <label className="block text-sm font-semibold text-slate-900 dark:text-slate-100 mb-2">
                                                 <Calendar className="w-3 h-3 inline mr-1" />
                                                 Duration
                                             </label>
@@ -405,7 +414,7 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
                                             <div className="grid grid-cols-2 gap-4">
                                                 {/* Start Date */}
                                                 <div>
-                                                    <label className="block text-xs font-medium text-slate-600 mb-2">
+                                                    <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-2">
                                                         Start Date
                                                     </label>
                                                     <MonthPicker
@@ -417,7 +426,7 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
 
                                                 {/* End Date */}
                                                 <div>
-                                                    <label className="block text-xs font-medium text-slate-600 mb-2">
+                                                    <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-2">
                                                         End Date
                                                     </label>
                                                     <MonthPicker
@@ -430,7 +439,7 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
                                             </div>
 
                                             {/* Currently Working Checkbox */}
-                                            <label className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer group">
+                                            <label className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300 cursor-pointer group">
                                                 <input
                                                     type="checkbox"
                                                     checked={exp.currentlyWorking || false}
@@ -444,8 +453,8 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
 
                                             {/* Duration Preview */}
                                             {exp.startDate && (
-                                                <div className="mt-2 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                                                    <p className="text-sm text-blue-800 font-medium">
+                                                <div className="mt-2 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+                                                    <p className="text-sm text-blue-800 dark:text-blue-300 font-medium">
                                                         Preview: {formatDate(exp.startDate)} - {exp.currentlyWorking ? "Present" : (exp.endDate ? formatDate(exp.endDate) : "Not specified")}
                                                     </p>
                                                 </div>
@@ -453,7 +462,7 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
                                         </div>
 
                                         <div>
-                                            <label className="block text-sm font-medium text-slate-700 mb-1">
+                                            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                                                 Description
                                             </label>
                                             <textarea
@@ -461,7 +470,7 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
                                                 onChange={(e) => updateExperience(idx, "description", e.target.value)}
                                                 rows={3}
                                                 maxLength={500}
-                                                className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 resize-none"
+                                                className="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 resize-none bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-medium placeholder:text-slate-400 dark:placeholder:text-slate-500"
                                                 placeholder="Describe your role, achievements, or what you learned..."
                                             />
                                             <div className="text-right text-xs text-slate-400 mt-1">
@@ -480,8 +489,8 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
                     <div className="space-y-6">
                         <div className="flex items-center justify-between">
                             <div>
-                                <h3 className="text-lg font-bold text-slate-900">Manual Projects</h3>
-                                <p className="text-sm text-slate-500 mt-1">
+                                <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100">Manual Projects</h3>
+                                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
                                     Add personal projects. Platform projects will also appear automatically.
                                 </p>
                             </div>
@@ -495,20 +504,20 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
                         </div>
 
                         {content.manualProjects.length === 0 ? (
-                            <div className="text-center py-12 border-2 border-dashed border-slate-200 rounded-2xl">
-                                <FolderOpen className="w-12 h-12 text-slate-300 mx-auto mb-3" />
-                                <p className="text-slate-500 font-medium">No manual projects added</p>
-                                <p className="text-sm text-slate-400 mt-1">All fields are optional</p>
+                            <div className="text-center py-12 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-2xl">
+                                <FolderOpen className="w-12 h-12 text-slate-300 dark:text-slate-600 mx-auto mb-3" />
+                                <p className="text-slate-500 dark:text-slate-400 font-medium">No manual projects added</p>
+                                <p className="text-sm text-slate-400 dark:text-slate-500 mt-1">All fields are optional</p>
                             </div>
                         ) : (
                             <div className="space-y-4">
                                 {content.manualProjects.map((project, idx) => (
-                                    <div key={idx} className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4">
+                                    <div key={idx} className="bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl p-6 space-y-4">
                                         <div className="flex items-center justify-between">
-                                            <h4 className="font-semibold text-slate-700">Project #{idx + 1}</h4>
+                                            <h4 className="font-semibold text-slate-700 dark:text-slate-300">Project #{idx + 1}</h4>
                                             <button
                                                 onClick={() => removeProject(idx)}
-                                                className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                                                className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
                                             >
                                                 <Trash2 className="w-4 h-4" />
                                             </button>
@@ -522,13 +531,13 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
                                                 type="text"
                                                 value={project.name}
                                                 onChange={(e) => updateProject(idx, "name", e.target.value)}
-                                                className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                className="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-bold placeholder:text-slate-400 dark:placeholder:text-slate-500"
                                                 placeholder="My Awesome Project"
                                             />
                                         </div>
 
                                         <div>
-                                            <label className="block text-sm font-medium text-slate-700 mb-1">
+                                            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                                                 Description
                                             </label>
                                             <textarea
@@ -536,7 +545,7 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
                                                 onChange={(e) => updateProject(idx, "description", e.target.value)}
                                                 rows={3}
                                                 maxLength={500}
-                                                className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 resize-none"
+                                                className="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 resize-none bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-medium placeholder:text-slate-400 dark:placeholder:text-slate-500"
                                                 placeholder="What does this project do? What problems does it solve?"
                                             />
                                             <div className="text-right text-xs text-slate-400 mt-1">
@@ -544,71 +553,52 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
                                             </div>
                                         </div>
 
-                                        <div className="grid grid-cols-2 gap-4">
-                                            <div>
-                                                <label className="block text-sm font-medium text-slate-700 mb-1">
-                                                    Status
-                                                </label>
-                                                <select
-                                                    value={project.status || "active"}
-                                                    onChange={(e) => updateProject(idx, "status", e.target.value)}
-                                                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500"
-                                                >
-                                                    <option value="active">Active</option>
-                                                    <option value="completed">Completed</option>
-                                                    <option value="paused">Paused</option>
-                                                </select>
-                                            </div>
-                                            <div>
-                                                <label className="block text-sm font-medium text-slate-700 mb-1">
-                                                    Priority
-                                                </label>
-                                                <select
-                                                    value={project.priority || "medium"}
-                                                    onChange={(e) => updateProject(idx, "priority", e.target.value)}
-                                                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500"
-                                                >
-                                                    <option value="low">Low</option>
-                                                    <option value="medium">Medium</option>
-                                                    <option value="high">High</option>
-                                                </select>
-                                            </div>
-                                        </div>
+                                        <div className="space-y-4">
+                                            <label className="block text-sm font-semibold text-slate-900 dark:text-slate-100">
+                                                <Calendar className="w-3 h-3 inline mr-1" />
+                                                Project Duration
+                                            </label>
 
-                                        <div className="grid grid-cols-2 gap-4">
-                                            <div>
-                                                <label className="block text-sm font-medium text-slate-700 mb-1">
-                                                    Completion (%)
-                                                </label>
-                                                <div className="flex items-center gap-4">
-                                                    <input
-                                                        type="range"
-                                                        min="0"
-                                                        max="100"
-                                                        value={project.progress || 0}
-                                                        onChange={(e) => updateProject(idx, "progress", parseInt(e.target.value))}
-                                                        className="w-full"
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <div>
+                                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2">
+                                                        Start Date
+                                                    </label>
+                                                    <MonthPicker
+                                                        value={project.startDate || ""}
+                                                        onChange={(value) => updateProject(idx, "startDate", value)}
+                                                        placeholder="Select start date"
                                                     />
-                                                    <span className="text-sm font-medium text-slate-700 w-12">
-                                                        {project.progress || 0}%
-                                                    </span>
+                                                </div>
+
+                                                <div>
+                                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2">
+                                                        End Date
+                                                    </label>
+                                                    <MonthPicker
+                                                        value={project.endDate || ""}
+                                                        onChange={(value) => updateProject(idx, "endDate", value)}
+                                                        placeholder="Select end date"
+                                                        disabled={project.currentlyWorking}
+                                                    />
                                                 </div>
                                             </div>
-                                            <div>
-                                                <label className="block text-sm font-medium text-slate-700 mb-1">
-                                                    Deadline
-                                                </label>
+
+                                            <label className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300 cursor-pointer group">
                                                 <input
-                                                    type="date"
-                                                    value={project.deadline ? new Date(project.deadline).toISOString().split('T')[0] : ""}
-                                                    onChange={(e) => updateProject(idx, "deadline", e.target.value)}
-                                                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                    type="checkbox"
+                                                    checked={project.currentlyWorking || false}
+                                                    onChange={(e) => updateProject(idx, "currentlyWorking", e.target.checked)}
+                                                    className="w-4 h-4 text-blue-600 border-slate-300 rounded focus:ring-2 focus:ring-blue-500 cursor-pointer"
                                                 />
-                                            </div>
+                                                <span className="font-medium group-hover:text-blue-600 transition-colors">
+                                                    Ongoing project
+                                                </span>
+                                            </label>
                                         </div>
 
                                         <div>
-                                            <label className="block text-sm font-medium text-slate-700 mb-1">
+                                            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                                                 <Code className="w-3 h-3 inline mr-1" />
                                                 Tech Stack
                                             </label>
@@ -616,14 +606,14 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
                                                 type="text"
                                                 value={project.techStack}
                                                 onChange={(e) => updateProject(idx, "techStack", e.target.value)}
-                                                className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                className="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-medium placeholder:text-slate-400 dark:placeholder:text-slate-500"
                                                 placeholder="React, Node.js, MongoDB, AWS..."
                                             />
                                         </div>
 
                                         <div className="grid grid-cols-2 gap-4">
                                             <div>
-                                                <label className="block text-sm font-medium text-slate-700 mb-1">
+                                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                                                     <Github className="w-3 h-3 inline mr-1" />
                                                     GitHub URL
                                                 </label>
@@ -631,12 +621,12 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
                                                     type="url"
                                                     value={project.githubUrl}
                                                     onChange={(e) => updateProject(idx, "githubUrl", e.target.value)}
-                                                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                    className="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-medium placeholder:text-slate-400 dark:placeholder:text-slate-500"
                                                     placeholder="https://github.com/..."
                                                 />
                                             </div>
                                             <div>
-                                                <label className="block text-sm font-medium text-slate-700 mb-1">
+                                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                                                     <Globe className="w-3 h-3 inline mr-1" />
                                                     Live URL
                                                 </label>
@@ -644,7 +634,7 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
                                                     type="url"
                                                     value={project.liveUrl}
                                                     onChange={(e) => updateProject(idx, "liveUrl", e.target.value)}
-                                                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                    className="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-medium placeholder:text-slate-400 dark:placeholder:text-slate-500"
                                                     placeholder="https://myproject.com"
                                                 />
                                             </div>
@@ -660,10 +650,10 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
                 return (
                     <div className="space-y-4">
                         <div>
-                            <label className="block text-sm font-semibold text-slate-900 mb-2">
+                            <label className="block text-sm font-semibold text-slate-900 dark:text-slate-100 mb-2">
                                 Your Skills
                             </label>
-                            <p className="text-sm text-slate-500 mb-3">
+                            <p className="text-sm text-slate-500 dark:text-slate-400 mb-3">
                                 Type a skill and press Enter to add it
                             </p>
 
@@ -678,7 +668,7 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
                                             addSkill();
                                         }
                                     }}
-                                    className="flex-1 px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="flex-1 px-4 py-3 border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-medium placeholder:text-slate-400 dark:placeholder:text-slate-500 shadow-sm"
                                     placeholder="Type a skill and press Enter..."
                                 />
                                 <button
@@ -694,12 +684,12 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
                                     {content.skills.map((skill, idx) => (
                                         <div
                                             key={idx}
-                                            className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 border border-blue-200 text-blue-700 rounded-full text-sm font-medium group hover:bg-blue-100 transition-colors"
+                                            className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 rounded-full text-sm font-medium group hover:bg-blue-100 dark:hover:bg-blue-800/40 transition-colors"
                                         >
                                             {skill}
                                             <button
                                                 onClick={() => removeSkill(skill)}
-                                                className="hover:bg-blue-200 rounded-full p-0.5 transition-colors"
+                                                className="hover:bg-blue-200 dark:hover:bg-blue-700 rounded-full p-0.5 transition-colors"
                                             >
                                                 <X size={14} />
                                             </button>
@@ -727,8 +717,13 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
                                 <input
                                     type="tel"
                                     value={content.contact.phone}
-                                    onChange={(e) => setContent({ ...content, contact: { ...content.contact, phone: e.target.value } })}
-                                    className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) => {
+                                        const val = e.target.value;
+                                        if (val === "" || /^[0-9+\-\s()]*$/.test(val)) {
+                                            setContent({ ...content, contact: { ...content.contact, phone: val } });
+                                        }
+                                    }}
+                                    className="w-full px-4 py-3 border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-medium placeholder:text-slate-400 dark:placeholder:text-slate-500"
                                     placeholder="+1 234 567 8900"
                                 />
                             </div>
@@ -741,7 +736,7 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
                                     type="email"
                                     value={content.contact.email}
                                     onChange={(e) => setContent({ ...content, contact: { ...content.contact, email: e.target.value } })}
-                                    className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-4 py-3 border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-medium placeholder:text-slate-400 dark:placeholder:text-slate-500"
                                     placeholder="your@email.com"
                                 />
                             </div>
@@ -749,7 +744,7 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
 
                         <div className="grid grid-cols-3 gap-4">
                             <div>
-                                <label className="block text-sm font-semibold text-slate-900 mb-2">
+                                <label className="block text-sm font-semibold text-slate-900 dark:text-slate-100 mb-2">
                                     <Github className="w-4 h-4 inline mr-1" />
                                     GitHub
                                 </label>
@@ -757,12 +752,12 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
                                     type="url"
                                     value={content.contact.github}
                                     onChange={(e) => setContent({ ...content, contact: { ...content.contact, github: e.target.value } })}
-                                    className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-4 py-3 border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-medium placeholder:text-slate-400 dark:placeholder:text-slate-500"
                                     placeholder="https://github.com/username"
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-semibold text-slate-900 mb-2">
+                                <label className="block text-sm font-semibold text-slate-900 dark:text-slate-100 mb-2">
                                     <Linkedin className="w-4 h-4 inline mr-1" />
                                     LinkedIn
                                 </label>
@@ -770,12 +765,12 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
                                     type="url"
                                     value={content.contact.linkedin}
                                     onChange={(e) => setContent({ ...content, contact: { ...content.contact, linkedin: e.target.value } })}
-                                    className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-4 py-3 border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-medium placeholder:text-slate-400 dark:placeholder:text-slate-500"
                                     placeholder="https://linkedin.com/in/username"
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-semibold text-slate-900 mb-2">
+                                <label className="block text-sm font-semibold text-slate-900 dark:text-slate-100 mb-2">
                                     <Globe className="w-4 h-4 inline mr-1" />
                                     Website
                                 </label>
@@ -783,7 +778,7 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
                                     type="url"
                                     value={content.contact.website}
                                     onChange={(e) => setContent({ ...content, contact: { ...content.contact, website: e.target.value } })}
-                                    className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-4 py-3 border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-medium placeholder:text-slate-400 dark:placeholder:text-slate-500"
                                     placeholder="https://yourwebsite.com"
                                 />
                             </div>
@@ -809,14 +804,14 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
                                         type="text"
                                         value={link.label}
                                         onChange={(e) => updateCustomLink(idx, "label", e.target.value)}
-                                        className="w-1/3 px-3 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                        className="w-1/3 px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-medium placeholder:text-slate-400 dark:placeholder:text-slate-500"
                                         placeholder="Label (e.g., Portfolio)"
                                     />
                                     <input
                                         type="url"
                                         value={link.url}
                                         onChange={(e) => updateCustomLink(idx, "url", e.target.value)}
-                                        className="flex-1 px-3 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                        className="flex-1 px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-medium placeholder:text-slate-400 dark:placeholder:text-slate-500"
                                         placeholder="https://..."
                                     />
                                     <button
@@ -851,17 +846,17 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
                         </div>
 
                         {content.customSections.length === 0 ? (
-                            <div className="text-center py-12 border-2 border-dashed border-slate-200 rounded-2xl">
+                            <div className="text-center py-12 border-2 border-dashed border-slate-300 rounded-2xl">
                                 <Plus className="w-12 h-12 text-slate-300 mx-auto mb-3" />
                                 <p className="text-slate-500 font-medium">No custom sections yet</p>
                             </div>
                         ) : (
                             <div className="space-y-4">
                                 {content.customSections.map((section, idx) => (
-                                    <div key={idx} className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4">
-                                        <div className="flex items-start justify-between gap-4">
+                                    <div key={idx} className="bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl p-6 space-y-4 shadow-sm">
+                                        <div className="flex items-center justify-between">
                                             <div className="flex-1">
-                                                <label className="block text-sm font-semibold text-slate-900 mb-2">
+                                                <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-2">
                                                     Section Title
                                                 </label>
                                                 <input
@@ -869,20 +864,20 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
                                                     value={section.title}
                                                     onChange={(e) => updateCustomSection(idx, "title", e.target.value)}
                                                     maxLength={100}
-                                                    className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                    className="w-full px-4 py-2 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-bold placeholder:text-slate-400 dark:placeholder:text-slate-500 shadow-sm"
                                                     placeholder="Why You Should Hire Me"
                                                 />
                                             </div>
                                             <button
                                                 onClick={() => removeCustomSection(idx)}
-                                                className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors mt-7"
+                                                className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors mt-6 ml-4"
                                             >
                                                 <Trash2 className="w-5 h-5" />
                                             </button>
                                         </div>
 
                                         <div>
-                                            <label className="block text-sm font-semibold text-slate-900 mb-2">
+                                            <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-2">
                                                 Content
                                             </label>
                                             <textarea
@@ -890,7 +885,7 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
                                                 onChange={(e) => updateCustomSection(idx, "content", e.target.value)}
                                                 rows={6}
                                                 maxLength={2000}
-                                                className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 resize-none"
+                                                className="w-full px-4 py-3 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 resize-none bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-medium placeholder:text-slate-400 dark:placeholder:text-slate-500 shadow-sm"
                                                 placeholder="Write your custom content here..."
                                             />
                                             <div className="text-right text-xs text-slate-400 mt-1">
@@ -912,13 +907,13 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
     return (
         <div className="space-y-6">
             {/* Header */}
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-300 dark:border-slate-800 shadow-sm">
                 <div>
-                    <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
-                        <Palette className="w-6 h-6 text-blue-600" />
+                    <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+                        <Palette className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                         Portfolio Content Editor
                     </h2>
-                    <p className="text-slate-500 mt-1">
+                    <p className="text-slate-500 dark:text-slate-400 mt-1">
                         Manage your portfolio content section by section
                     </p>
                 </div>
@@ -927,8 +922,8 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
                     <button
                         onClick={() => setConfig({ ...config, isPublic: !config.isPublic })}
                         className={`flex items-center gap-2 px-4 py-2 rounded-xl border transition-all ${config.isPublic
-                            ? "bg-green-50 border-green-200 text-green-700"
-                            : "bg-slate-50 border-slate-200 text-slate-600"
+                            ? "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 text-green-700 dark:text-green-400"
+                            : "bg-slate-50 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-400"
                             }`}
                     >
                         {config.isPublic ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
@@ -938,7 +933,7 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
                     <button
                         onClick={handleSave}
                         disabled={loading}
-                        className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 disabled:opacity-50 transition-all shadow-lg shadow-blue-200"
+                        className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 disabled:opacity-50 transition-all shadow-md"
                     >
                         {loading ? (
                             <>
@@ -958,8 +953,8 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
 
 
             {/* Section Tabs & Content */}
-            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-                <div className="border-b border-slate-200 bg-slate-50">
+            <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-300 dark:border-slate-800 shadow-sm overflow-hidden">
+                <div className="border-b border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50">
                     <div className="flex overflow-x-auto">
                         {SECTION_TABS.map((tab) => {
                             const Icon = tab.icon;
@@ -969,8 +964,8 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
                                     key={tab.id}
                                     onClick={() => setActiveSection(tab.id)}
                                     className={`flex items-center gap-2 px-6 py-4 font-semibold text-sm whitespace-nowrap border-b-2 transition-all ${isActive
-                                        ? "border-blue-600 text-blue-600 bg-white"
-                                        : "border-transparent text-slate-500 hover:text-slate-700 hover:bg-slate-100"
+                                        ? "border-blue-600 text-blue-600 bg-white dark:bg-slate-900 dark:border-blue-400 dark:text-blue-400"
+                                        : "border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
                                         }`}
                                 >
                                     <Icon className="w-4 h-4" />

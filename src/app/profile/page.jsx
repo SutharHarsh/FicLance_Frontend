@@ -26,7 +26,7 @@ import ActivityStats from "@/components/Profile/ActivityStats";
 import SecuritySettings from "@/components/Profile/SecuritySettings";
 import Preferences from "@/components/Profile/Preferences";
 import UserProjects from "@/components/Profile/UserProjects";
-import PortfolioEditor from "@/components/Profile/PortfolioEditor";
+import PortfolioEditor from "@/components/Profile/PortfolioContentEditor";
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState(null);
@@ -204,11 +204,10 @@ export default function ProfilePage() {
                       onClick={() => setActiveTab(tab.id)}
                       className={`
                       relative flex items-center gap-2 px-3 sm:px-4 py-2.5 rounded-xl font-medium text-xs sm:text-sm transition-all duration-200 flex-shrink-0
-                      ${
-                        isActive
+                      ${isActive
                           ? "bg-background text-foreground shadow-md"
                           : "text-muted-foreground hover:text-foreground hover:bg-background/50"
-                      }
+                        }
                     `}
                     >
                       <Icon
@@ -232,11 +231,10 @@ export default function ProfilePage() {
             {/* Edit Mode Toggle - Full width on mobile */}
             <button
               onClick={() => setIsEditing(!isEditing)}
-              className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-medium text-sm transition-all shadow-lg sm:self-end ${
-                isEditing
+              className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-medium text-sm transition-all shadow-lg sm:self-end ${isEditing
                   ? "bg-red-500 hover:bg-red-600 text-white shadow-red-200 dark:shadow-red-900/20"
                   : "bg-primary hover:bg-blue-700 text-white shadow-blue-200 dark:shadow-blue-900/20"
-              }`}
+                }`}
             >
               {isEditing ? (
                 <>

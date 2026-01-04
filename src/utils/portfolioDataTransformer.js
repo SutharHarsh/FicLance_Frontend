@@ -88,7 +88,9 @@ export function transformUserData(user, dashboardData = {}) {
     stats: {
       totalProjects: allProjects.length,
       completedProjects: allProjects.filter((p) => p.status === "completed").length || 0,
-      activeProjects: allProjects.filter((p) => p.status === "active").length || 0,
+      activeProjects: allProjects.filter((p) =>
+        ["active", "in_progress", "created", "requirements_sent", "pending", "running"].includes(p.status)
+      ).length || 0,
       badgesCount: badges.length || 0,
       skillsCount: user.profile?.skills?.length || 0,
       experienceYears: calculateYearsOfExperience(user.createdAt),
@@ -178,7 +180,12 @@ function calculateDaysActive(createdAt) {
  */
 function getStatusLabel(status) {
   const labels = {
-    active: "In Progress",
+    active: "Active",
+    in_progress: "In Progress",
+    created: "Created",
+    requirements_sent: "Requirements Sent",
+    running: "Running",
+    pending: "Pending",
     completed: "Completed",
     paused: "On Hold",
     overdue: "Overdue",

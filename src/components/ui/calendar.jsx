@@ -61,14 +61,14 @@ export function MonthYearPicker({ value, onChange, placeholder = "Select month",
                 disabled={disabled}
                 onClick={() => !disabled && setIsOpen(!isOpen)}
                 className={`w-full px-3 py-2.5 border rounded-lg text-sm text-left inline-flex items-center justify-between transition-all ${disabled
-                        ? "bg-slate-100 text-slate-400 cursor-not-allowed border-slate-200"
-                        : "bg-white hover:bg-slate-50 border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    ? "bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed border-slate-200 dark:border-slate-700"
+                    : "bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     }`}
             >
-                <span className={selectedMonth && selectedYear ? "text-slate-900" : "text-slate-400"}>
+                <span className={selectedMonth && selectedYear ? "text-slate-900 dark:text-slate-100" : "text-slate-400 dark:text-slate-500"}>
                     {formatDisplay()}
                 </span>
-                <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 text-slate-400 dark:text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
             </button>
@@ -79,7 +79,7 @@ export function MonthYearPicker({ value, onChange, placeholder = "Select month",
                     <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
 
                     {/* Compact Picker - Shows ABOVE */}
-                    <div className="absolute z-50 bottom-full mb-2 w-full bg-white rounded-lg border border-slate-200 shadow-xl">
+                    <div className="absolute z-50 bottom-full mb-2 w-full bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden">
                         {/* Minimal Header */}
                         <div className="bg-blue-600 text-white px-3 py-2 text-xs font-semibold">
                             {selectedMonth && selectedYear ? formatDisplay() : "Select Date"}
@@ -95,8 +95,8 @@ export function MonthYearPicker({ value, onChange, placeholder = "Select month",
                                         type="button"
                                         onClick={() => handleSelect(month.value, selectedYear || currentYear.toString())}
                                         className={`px-2 py-1 rounded text-xs font-medium transition-colors ${selectedMonth === month.value
-                                                ? "bg-blue-600 text-white"
-                                                : "bg-slate-50 text-slate-700 hover:bg-slate-100"
+                                            ? "bg-blue-600 text-white"
+                                            : "bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
                                             }`}
                                     >
                                         {month.label}
@@ -112,8 +112,8 @@ export function MonthYearPicker({ value, onChange, placeholder = "Select month",
                                         type="button"
                                         onClick={() => handleSelect(selectedMonth || "01", year.toString())}
                                         className={`px-2 py-1 rounded text-xs font-medium transition-colors ${selectedYear === year.toString()
-                                                ? "bg-blue-600 text-white"
-                                                : "bg-slate-50 text-slate-700 hover:bg-slate-100"
+                                            ? "bg-blue-600 text-white"
+                                            : "bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
                                             }`}
                                     >
                                         {year}
@@ -123,7 +123,7 @@ export function MonthYearPicker({ value, onChange, placeholder = "Select month",
                         </div>
 
                         {/* Minimal Footer */}
-                        <div className="border-t border-slate-200 px-2 py-1 bg-slate-50 flex justify-between text-xs">
+                        <div className="border-t border-slate-200 dark:border-slate-800 px-2 py-1 bg-slate-50 dark:bg-slate-800/50 flex justify-between text-xs">
                             <button
                                 type="button"
                                 onClick={() => {
@@ -132,14 +132,14 @@ export function MonthYearPicker({ value, onChange, placeholder = "Select month",
                                     onChange("");
                                     setIsOpen(false);
                                 }}
-                                className="text-slate-600 hover:text-slate-900 font-medium"
+                                className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 font-medium px-2 py-1 rounded"
                             >
                                 Clear
                             </button>
                             <button
                                 type="button"
                                 onClick={() => setIsOpen(false)}
-                                className="px-3 py-1 bg-blue-600 text-white rounded font-semibold hover:bg-blue-700"
+                                className="px-3 py-1 bg-blue-600 text-white rounded font-semibold hover:bg-blue-700 transition-colors"
                             >
                                 Done
                             </button>

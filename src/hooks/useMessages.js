@@ -101,7 +101,7 @@ export function useMessages(initialMessages, conversationId, user) {
               m.type === "github_feedback" &&
               Math.abs(
                 new Date(m.createdAt).getTime() -
-                  new Date(message.createdAt).getTime()
+                new Date(message.createdAt).getTime()
               ) < 5000
           )
         ) {
@@ -141,6 +141,13 @@ export function useMessages(initialMessages, conversationId, user) {
       }
     });
 
+    // Listen for agent errors
+    socketInstance.on("agent:error", (data) => {
+      console.error("❌ [useMessages] Agent error:", data);
+      setClientTyping(false);
+      toast.error(data.message || "Agent failed to respond");
+    });
+
     // Listen for typing start/stop (alternative events)
     socketInstance.on("typing:start", () => {
       console.log("✍️ [useMessages] Typing started");
@@ -165,6 +172,7 @@ export function useMessages(initialMessages, conversationId, user) {
       socketInstance.off("connect_error");
       socketInstance.off("message:created");
       socketInstance.off("agent:typing");
+      socketInstance.off("agent:error");
       socketInstance.off("typing:start");
       socketInstance.off("typing:stop");
       socketInstance.disconnect();
