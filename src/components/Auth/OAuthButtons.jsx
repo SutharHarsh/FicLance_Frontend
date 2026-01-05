@@ -15,7 +15,7 @@ export default function OAuthButtons({ callbackUrl = "/dashboard" }) {
   const handleOAuthSignIn = (providerId) => {
     setLoadingProvider(providerId);
     // Redirect to backend OAuth endpoint
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL+"/api/v1";
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
     // const apiUrl = 'http://localhost:8080/api/v1';
     window.location.href = `${apiUrl}/auth/oauth/${providerId}`;
   };
