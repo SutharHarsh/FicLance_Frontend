@@ -105,6 +105,19 @@ api.interceptors.response.use(
       }
     }
 
+    // Preserve backend error messages for display
+    if (error.response?.data) {
+      console.error('❌ API Error:', error.response.data);
+      // Return structured error with backend message
+      const backendError = new Error(
+        error.response.data.error?.message || 
+        error.response.data.message || 
+        error.message
+      );
+      backendError.response = error.response;
+      return Promise.reject(backendError);
+    }
+
     return Promise.reject(error);
   }
 );
