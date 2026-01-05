@@ -16,7 +16,8 @@ export function usePublicPortfolio(username) {
     try {
       const response = await fetch(
         `${
-          process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api"
+          process.env.NEXT_PUBLIC_API_URL
+          //"http://localhost:5000/api"
         }/portfolio/user/${username}`
       );
 

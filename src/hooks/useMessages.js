@@ -36,7 +36,8 @@ export function useMessages(initialMessages, conversationId, user) {
     }
 
     const socketInstance = io(
-      process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080",
+      process.env.NEXT_PUBLIC_API_URL,
+      //"http://localhost:8080",
       {
         path: "/socket.io",
         withCredentials: true,

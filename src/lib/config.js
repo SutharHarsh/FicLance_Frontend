@@ -16,7 +16,8 @@ export const isBetaMode = () => {
  * @returns {string} API base URL
  */
 export const getApiBaseUrl = () => {
-  return process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+  return process.env.NEXT_PUBLIC_API_URL;
+  // return "http://localhost:8080";
 };
 
 export default {

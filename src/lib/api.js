@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 // FORCE LOCALHOST for debugging
-const API_URL = 'http://localhost:8080/api/v1';
-// const API_URL = process.env.NEXT_PUBLIC_API_URL 
+// const API_URL = 'http://localhost:8080/api/v1';
+const API_URL = process.env.NEXT_PUBLIC_API_URL 
 //   ? `${process.env.NEXT_PUBLIC_API_URL}/api/v1`
 //   : 'http://localhost:8080/api/v1';
 
