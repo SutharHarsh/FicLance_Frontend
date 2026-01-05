@@ -104,12 +104,15 @@ export function useGitHubFeedback(
           typeof window !== "undefined"
             ? localStorage.getItem("ficlance_access_token")
             : null;
-        await fetch("/api/messages", {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';
+        console.log("🔗 [GitHub] Using API URL for system message:", apiUrl);
+        await fetch(`${apiUrl}/messages`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             ...(token && { Authorization: `Bearer ${token}` }),
           },
+          credentials: 'include',
           body: JSON.stringify({
             conversationId,
             content: `✅ GitHub repository submitted successfully\n\n**Repository:** ${url}\n\n Please review this project and give me feedback on the implementation.`,
@@ -154,12 +157,15 @@ export function useGitHubFeedback(
           typeof window !== "undefined"
             ? localStorage.getItem("ficlance_access_token")
             : null;
-        const saveResponse = await fetch("/api/messages", {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';
+        console.log("🔗 [GitHub] Using API URL for feedback save:", apiUrl);
+        const saveResponse = await fetch(`${apiUrl}/messages`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             ...(token && { Authorization: `Bearer ${token}` }),
           },
+          credentials: 'include',
           body: JSON.stringify({
             conversationId,
             content: feedbackContent,
