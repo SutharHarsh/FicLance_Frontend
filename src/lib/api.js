@@ -58,13 +58,17 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    // CRITICAL FIX: Don't intercept refresh endpoint itself to prevent infinite loops
+    // Don't intercept refresh endpoint to prevent infinite loops
     if (originalRequest.url === '/auth/refresh') {
       return Promise.reject(error);
     }
 
-    if (error.response && error.response.status === 401 && !originalRequest._retry) {
+    // Handle 401 (token expired) - attempt refresh ONCE
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
       if (isRefreshing) {
+        // Queue this request while refresh is in progress
         return new Promise(function (resolve, reject) {
           failedQueue.push({ resolve, reject });
         })
@@ -77,12 +81,10 @@ api.interceptors.response.use(
           });
       }
 
-      originalRequest._retry = true;
       isRefreshing = true;
 
       try {
-        console.log("🔄 REFRESHING TOKEN...");
-        // Call refresh endpoint
+        console.log("🔄 Token expired, attempting refresh...");
         const response = await api.post('/auth/refresh');
         const { access_token } = response.data.data;
 
@@ -91,11 +93,10 @@ api.interceptors.response.use(
 
         processQueue(null, access_token);
 
-        console.log("🔄 RETRYING REQUEST WITH NEW TOKEN");
-        console.log("📦 Retry Payload:", originalRequest.data);
-
+        console.log("✅ Token refreshed successfully, retrying request");
         return api(originalRequest);
       } catch (err) {
+        console.error("❌ Refresh token failed, logging out");
         processQueue(err, null);
         // Emit logout event when refresh fails
         window.dispatchEvent(new Event('auth:logout'));
