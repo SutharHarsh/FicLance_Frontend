@@ -36,16 +36,37 @@ export default function ChatWindow({
 
   // Initialize Socket.io
   useEffect(() => {
-    const socketInstance = io({
-      path: "/api/socket/io",
-      addTrailingSlash: false,
+    const token = typeof window !== "undefined" ? localStorage.getItem("ficlance_access_token") : null;
+    const socketUrl = process.env.NEXT_PUBLIC_API_URL?.replace('/api/v1', '') || 'http://localhost:8080';
+    
+    console.log("🔌 [ChatWindow] Initializing socket connection to:", socketUrl);
+    
+    const socketInstance = io(socketUrl, {
+      path: "/socket.io",
+      withCredentials: true,
+      auth: { token },
+      transports: ["websocket", "polling"],
+      reconnection: true,
     });
 
     socketInstance.on("connect", () => {
-      console.log("🔌 Socket connected in ChatWindow");
+      console.log("✅ [ChatWindow] Socket connected! ID:", socketInstance.id);
       if (chatId) {
-        socketInstance.emit("join_conversation", chatId);
+        socketInstance.emit("join:simulation", chatId);
+        console.log("📍 [ChatWindow] Joined simulation room:", chatId);
       }
+    });
+
+    socketInstance.on("disconnect", (reason) => {
+      console.log("🔌 [ChatWindow] Socket disconnected:", reason);
+    });
+
+    socketInstance.on("connect_error", (error) => {
+      console.error("❌ [ChatWindow] Socket connection error:", error.message);
+    });
+
+    socketInstance.on("joined:simulation", ({ simulationId }) => {
+      console.log("✅ [ChatWindow] Successfully joined simulation:", simulationId);
     });
 
     socketInstance.on("new_message", (message) => {
@@ -116,12 +137,14 @@ export default function ChatWindow({
           typeof window !== "undefined"
             ? localStorage.getItem("ficlance_access_token")
             : null;
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';
         const res = await fetch(
-          `/api/v1/messages?conversationId=${chatId}&limit=500`,
+          `${apiUrl}/messages?conversationId=${chatId}&limit=500`,
           {
             headers: {
               ...(token && { Authorization: `Bearer ${token}` }),
             },
+            credentials: 'include',
           }
         );
 
@@ -210,12 +233,14 @@ export default function ChatWindow({
           : null;
 
       // Use 'conversationId' to match backend expectation
-      const response = await fetch("/api/v1/messages", {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';
+      const response = await fetch(`${apiUrl}/messages`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           ...(token && { Authorization: `Bearer ${token}` }),
         },
+        credentials: 'include',
         body: JSON.stringify({
           conversationId: chatId,
           content: trimmed,

@@ -35,14 +35,19 @@ export function useMessages(initialMessages, conversationId, user) {
       return;
     }
 
+    // Remove /api/v1 from the URL for socket connection
+    const socketUrl = process.env.NEXT_PUBLIC_API_URL?.replace('/api/v1', '') || 'http://localhost:8080';
+    
     const socketInstance = io(
-      process.env.NEXT_PUBLIC_API_URL,
-      //"http://localhost:8080",
+      socketUrl,
       {
         path: "/socket.io",
         withCredentials: true,
         auth: { token },
         transports: ["websocket", "polling"],
+        reconnection: true,
+        reconnectionAttempts: 5,
+        reconnectionDelay: 1000,
       }
     );
 
