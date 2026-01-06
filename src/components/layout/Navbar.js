@@ -24,9 +24,13 @@ const Nav = () => {
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo and Hamburger */}
         <div className="flex items-center justify-between w-full md:w-auto">
-          <Link href="/" className="flex h-20 items-center">
-            <h1 className="font-bold text-4xl">FicLance</h1>
-          </Link>
+         <Link href="/" className="flex h-20 items-center">
+              <img
+                src="/ficlance_logo2.png"
+                alt="FicLance Logo"
+                className="h-16 w-auto object-contain"
+              />
+            </Link>
 
           {/* Hamburger - Mobile Only */}
           <button
