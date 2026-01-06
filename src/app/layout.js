@@ -13,10 +13,13 @@ const poppins = Poppins({
 export const metadata = {
   title: `${siteConfig.name} - ${siteConfig.tagline}`,
   description: siteConfig.description,
+  keywords: defaultKeywords,
+  authors: [{ name: siteConfig.author }],
   metadataBase: new URL(siteConfig.domain),
   alternates: {
     canonical: "/",
   },
+  manifest: "/site.webmanifest",
   icons: {
     icon: "/favicon.ico",
     apple: "/apple-touch-icon.png",
@@ -28,10 +31,9 @@ export const metadata = {
     siteName: siteConfig.name,
     images: [
       {
-        url: "/og.png",
+        url: `${siteConfig.domain}/og-v1.png`,
         width: 1200,
         height: 630,
-        alt: `${siteConfig.name} - AI-Powered Client Simulation Platform`,
       },
     ],
     locale: siteConfig.locale,
@@ -41,8 +43,19 @@ export const metadata = {
     card: "summary_large_image",
     title: `${siteConfig.name} - ${siteConfig.tagline}`,
     description: siteConfig.description,
-    images: ["/og.png"],
+    images: [`${siteConfig.domain}/og-v1.png`],
     creator: siteConfig.twitterHandle,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 

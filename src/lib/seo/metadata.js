@@ -20,7 +20,7 @@ export const siteConfig = {
 export const brandAssets = {
   logo: "/Logo2.png",
   invertedLogo: "/InvertedLogo.png",
-  ogImage: "/og.png", // Simplified filename
+  ogImage: "/og-v1.png", // Cache busted filename
   favicon: "/favicon.ico",
   favicon32: "/favicon-32x32.png",
   favicon16: "/favicon-16x16.png",
