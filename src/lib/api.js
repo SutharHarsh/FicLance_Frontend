@@ -7,7 +7,7 @@ import axios from 'axios';
 //   : 'http://localhost:8080/api/v1';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL
-  ? `${process.env.NEXT_PUBLIC_API_URL}/api/v1`
+  ? `${process.env.NEXT_PUBLIC_API_URL.replace(/\/$/, '')}/api/v1`
   : "http://localhost:8080/api/v1";
 
 
@@ -22,8 +22,7 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-  withCredentials: false,
+  withCredentials: true,
 });
 
 // Request interceptor to add access token
