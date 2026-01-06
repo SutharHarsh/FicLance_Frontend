@@ -7,6 +7,7 @@ import api from "@/lib/api";
 import ChatInterface from "@/components/Chat/ChatInterface";
 import { toast } from "sonner";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import { useChatSEO } from "@/lib/seo";
 
 function ChatPageContent() {
   const params = useParams(); // { conversationId: ... }
@@ -18,6 +19,16 @@ function ChatPageContent() {
   const [messages, setMessages] = useState([]);
   const [completionPercentage, setCompletionPercentage] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  // Apply dynamic SEO based on conversation data
+  useChatSEO(
+    conversation
+      ? {
+          id: conversationId,
+          projectName: conversation.projectName || conversation.templateName,
+        }
+      : null
+  );
 
   // Fetch Data and handle polling
   useEffect(() => {
@@ -57,9 +68,9 @@ function ChatPageContent() {
         console.log("[ChatPage] Messages response:", msgResponse.data);
 
         if (msgResponse.data.success) {
-          const msgList = Array.isArray(msgResponse.data.data)
+          const msgList = Array.isArray(msgResponse?.data?.data)
             ? msgResponse.data.data
-            : msgResponse.data.data.items || [];
+            : msgResponse?.data?.data?.items || [];
 
           if (isMounted) setMessages(msgList);
 
@@ -68,14 +79,14 @@ function ChatPageContent() {
             .reverse()
             .find(
               (m) =>
-                m.metadata?.rawAgentResponse?.message?.completion_percentage !==
-                undefined
+                m?.metadata?.rawAgentResponse?.message
+                  ?.completion_percentage !== undefined
             );
 
           if (latestGitHubFeedback && isMounted) {
             const msgCompletionPercentage =
-              latestGitHubFeedback.metadata.rawAgentResponse.message
-                .completion_percentage;
+              latestGitHubFeedback?.metadata?.rawAgentResponse?.message
+                ?.completion_percentage || 0;
             console.log(
               "Completion percentage from latest GitHub feedback:",
               msgCompletionPercentage
@@ -118,8 +129,10 @@ function ChatPageContent() {
       };
 
     // 1. Get client name
-    const firstAgentMsg = messages.find(
-      (m) => m.sender?.type === "agent" && m.metadata?.clientName
+    const firstAgentMsg = (messages || []).find(
+      (m) =>
+        m.sender?.type === "agent" &&
+        (m.metadata?.clientName || m.metadata?.client_name)
     );
     const clientName =
       firstAgentMsg?.metadata?.client_name ||
@@ -141,7 +154,7 @@ function ChatPageContent() {
             tech_stack:
               (conversation.templateSnapshot?.requiredSkills?.length > 0
                 ? conversation.templateSnapshot.requiredSkills
-                : reqData.tech_stack?.length > 0
+                : reqData?.tech_stack?.length > 0
                 ? reqData.tech_stack
                 : conversation.filters?.skills) || [],
             expertise:
@@ -163,8 +176,8 @@ function ChatPageContent() {
               conversation.filters?.skills ||
               [],
             expertise:
-              firstAgentMsg.metadata.expertise ||
-              conversation.filters?.expertise ||
+              firstAgentMsg?.metadata?.expertise ||
+              conversation?.filters?.expertise ||
               "Intermediate",
             completion_percentage: completionPercentage || 0,
           },

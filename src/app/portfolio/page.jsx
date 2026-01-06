@@ -3,15 +3,20 @@ import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { Sparkles } from "lucide-react";
+import { useDynamicSEO, pageMetadata } from "@/lib/seo";
 
 /**
  * Portfolio Page - Redirects to V2 Premium System
  * The new portfolio V2 system features 10 premium, award-worthy themes
  * Location: /portfolio/v2
+ * SEO Enhancement: Apply portfolio metadata
  */
 const PortfolioPage = () => {
   const { user, loading } = useAuth();
   const router = useRouter();
+  
+  // Apply dynamic SEO for portfolio page
+  useDynamicSEO(pageMetadata.portfolio);
 
   // Auto-redirect to V2 premium portfolio system
   useEffect(() => {

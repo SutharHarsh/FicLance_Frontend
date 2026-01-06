@@ -24,13 +24,13 @@ const Nav = () => {
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo and Hamburger */}
         <div className="flex items-center justify-between w-full md:w-auto">
-         <Link href="/" className="flex h-20 items-center">
-              <img
-                src="/ficlance_logo2.png"
-                alt="FicLance Logo"
-                className="h-16 w-auto object-contain"
-              />
-            </Link>
+          <Link href="/dashboard" className="flex items-center">
+            <img
+              src="/Logo2.png"
+              alt="FicLance - AI-Powered Client Simulation Platform"
+              className="h-14 w-auto object-contain"
+            />
+          </Link>
 
           {/* Hamburger - Mobile Only */}
           <button
@@ -44,16 +44,28 @@ const Nav = () => {
 
         {/* Nav Links - Desktop */}
         <nav className="hidden md:flex ml-10 space-x-4">
-          <Link href="/dashboard" className="px-3 py-2 text-gray-700 hover:text-primary font-medium">
+          <Link
+            href="/dashboard"
+            className="px-3 py-2 text-gray-700 hover:text-primary font-medium"
+          >
             Dashboard
           </Link>
-          <Link href="/projects" className="px-3 py-2 text-gray-700 hover:text-primary font-medium">
+          <Link
+            href="/projects"
+            className="px-3 py-2 text-gray-700 hover:text-primary font-medium"
+          >
             Projects
           </Link>
-          <Link href="/learning" className="px-3 py-2 text-gray-700 hover:text-primary font-medium">
+          <Link
+            href="/learning"
+            className="px-3 py-2 text-gray-700 hover:text-primary font-medium"
+          >
             Learning Path
           </Link>
-          <Link href="/portfolio" className="px-3 py-2 text-gray-700 hover:text-primary font-medium">
+          <Link
+            href="/portfolio"
+            className="px-3 py-2 text-gray-700 hover:text-primary font-medium"
+          >
             Portfolio
           </Link>
         </nav>
@@ -61,7 +73,7 @@ const Nav = () => {
         {/* Right Section */}
         <div className="hidden md:flex items-center space-x-4">
           {!user && (
-             <button
+            <button
               className="bg-primary text-white px-6 py-2 rounded-full font-medium hover:bg-primary/90 transition whitespace-nowrap"
               onClick={handleStartSimulation}
             >
@@ -71,14 +83,18 @@ const Nav = () => {
 
           {user && (
             <div className="flex items-center gap-4">
-               <div className="relative w-10 h-10 flex items-center justify-center">
+              <div className="relative w-10 h-10 flex items-center justify-center">
                 <RiNotification3Line className="text-gray-600 text-lg" />
                 <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
               </div>
 
               <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
                 <img
-                  src={user.avatar || user.image || "https://randomuser.me/api/portraits/men/75.jpg"}
+                  src={
+                    user.avatar ||
+                    user.image ||
+                    "https://randomuser.me/api/portraits/men/75.jpg"
+                  }
                   alt="User profile"
                   className="w-full h-full object-cover"
                 />

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useAuth } from "@/contexts/AuthContext";
 import api from "@/lib/api";
 import { isBetaMode } from "@/lib/config";
@@ -89,10 +90,11 @@ const Slider = ({ isLoading = false, isSidebarOpen, setIsSidebarOpen }) => {
       {/* Sidebar */}
       <aside
         className={`
-          fixed lg:fixed top-0 lg:top-[72px] left-0 z-50 lg:z-0
-          w-64 bg-card shadow-lg lg:shadow-sm
-          h-screen lg:h-[calc(100vh-72px)]
-          overflow-y-auto
+          fixed lg:fixed top-0 left-0 z-50 lg:z-0
+          w-64 bg-gradient-to-b from-card via-card to-card/95
+          shadow-xl lg:shadow-lg border-r border-border/50
+          h-screen lg:h-[100vh]
+          flex flex-col
           transition-transform duration-300 ease-in-out
           ${
             isSidebarOpen
@@ -102,8 +104,36 @@ const Slider = ({ isLoading = false, isSidebarOpen, setIsSidebarOpen }) => {
           lg:block
         `}
       >
-        <nav className="p-4 flex flex-col h-full justify-between">
-          <ul className="space-y-1">
+        {/* Fixed Logo Section */}
+        <div className="flex-shrink-0 px-5 py-5 border-b border-border/50 bg-gradient-to-r from-card to-card/80 backdrop-blur-sm">
+          <Link
+            href="/dashboard"
+            className="flex items-center justify-center group"
+          >
+            <Image
+              src="/Logo2.png"
+              alt="FicLance"
+              width={140}
+              height={48}
+              className="h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+              priority
+            />
+          </Link>
+        </div>
+
+        {/* Scrollable Navigation Section */}
+        <nav className="flex-1 overflow-y-auto scrollbar-hide p-4 flex flex-col justify-between">
+          <style jsx>{`
+            .scrollbar-hide::-webkit-scrollbar {
+              display: none;
+            }
+            .scrollbar-hide {
+              -ms-overflow-style: none;
+              scrollbar-width: none;
+            }
+          `}</style>
+
+          <ul className="space-y-1.5">
             {isLoading ? (
               [...Array(4)].map((_, index) => <NavItemSkeleton key={index} />)
             ) : (
@@ -121,13 +151,17 @@ const Slider = ({ isLoading = false, isSidebarOpen, setIsSidebarOpen }) => {
                             : undefined
                         }
                         onClick={() => setIsSidebarOpen(false)}
-                        className={`flex items-center p-3 rounded-lg font-medium transition-colors ${
+                        className={`flex items-center px-3.5 py-3 rounded-xl font-medium transition-all duration-200 group ${
                           item.active
-                            ? "text-primary bg-primary/10"
-                            : "text-foreground hover:bg-secondary"
+                            ? "text-primary bg-gradient-to-r from-primary/10 to-primary/5 shadow-sm border border-primary/20"
+                            : "text-foreground hover:bg-secondary/80 hover:shadow-sm hover:translate-x-0.5"
                         }`}
                       >
-                        <div className="w-5 h-5 flex items-center justify-center mr-3 text-lg">
+                        <div
+                          className={`w-5 h-5 flex items-center justify-center mr-3.5 text-lg transition-transform duration-200 ${
+                            item.active ? "" : "group-hover:scale-110"
+                          }`}
+                        >
                           {item.icon}
                         </div>
                         {item.name}
@@ -138,24 +172,25 @@ const Slider = ({ isLoading = false, isSidebarOpen, setIsSidebarOpen }) => {
             )}
           </ul>
 
-          <div className="mt-8 pt-6 border-t border-border">
+          <div className="mt-12 pt-6 border-t border-border/50">
             {projectsLoading || isLoading ? (
               <>
-                <div className="h-3 bg-card-foreground rounded w-24 mb-3 px-3 animate-pulse"></div>
-                <ul className="space-y-1">
+                <div className="h-3 bg-card-foreground/20 rounded w-28 mb-4 px-3 animate-pulse"></div>
+                <ul className="space-y-1.5">
                   {[...Array(3)].map((_, index) => (
                     <RecentProjectSkeleton key={index} />
                   ))}
                 </ul>
               </>
             ) : (
-              <div className="animate-fadeIn">
-                <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3 px-3">
+              <div className="animate-fadeIn mt-4">
+                <h3 className="text-xs font-bold text-muted-foreground uppercase tracking-widest px-3 flex items-center">
+                  <span className="w-1.5 h-1.5 bg-primary rounded-full mr-2"></span>
                   Recent Projects
                 </h3>
                 <ul className="space-y-1">
                   {recentProjects.length === 0 ? (
-                    <li className="px-3 py-2 text-sm text-muted-foreground">
+                    <li className="px-3 py-2.5 text-sm text-muted-foreground/70 italic">
                       No projects yet
                     </li>
                   ) : (
@@ -164,14 +199,14 @@ const Slider = ({ isLoading = false, isSidebarOpen, setIsSidebarOpen }) => {
                         <Link
                           href={`/chat/${project.id}`}
                           onClick={() => setIsSidebarOpen(false)}
-                          className="flex items-center p-3 text-sm font-medium text-gray-700 dark:text-foreground hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+                          className="flex items-center px-3 py-2.5 text-sm font-medium text-foreground/80 hover:text-foreground hover:bg-secondary/60 rounded-lg transition-all duration-200 group hover:translate-x-0.5"
                         >
                           <div
                             className={`w-2 h-2 ${getRandomColor(
                               project.id
-                            )} rounded-full mr-3 shrink-0`}
+                            )} rounded-full mr-3 shrink-0 group-hover:scale-125 transition-transform duration-200`}
                           ></div>
-                          {project.title}
+                          <span className="truncate">{project.title}</span>
                         </Link>
                       </li>
                     ))

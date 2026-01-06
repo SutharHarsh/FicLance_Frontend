@@ -8,6 +8,7 @@ import SupportTicketModal from "@/components/HelpDesk/SupportTicketModal";
 import { helpDeskData } from "@/data/help-desk";
 import { motion } from "motion/react";
 import { FiFileText } from "react-icons/fi";
+import { useDynamicSEO, pageMetadata } from "@/lib/seo";
 
 export default function HelpDeskPage() {
   const searchParams = useSearchParams();
@@ -16,10 +17,8 @@ export default function HelpDeskPage() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // SEO
-  useEffect(() => {
-    document.title = "Help Center | FicLance Support";
-  }, []);
+  // Apply dynamic SEO for help desk
+  useDynamicSEO(pageMetadata.helpDesk);
 
   return (
     <HelpDeskLayout>

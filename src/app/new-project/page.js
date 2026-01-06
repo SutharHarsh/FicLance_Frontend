@@ -7,8 +7,11 @@ import api from "@/lib/api";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { isBetaMode } from "@/lib/config";
+import { useDynamicSEO, pageMetadata } from "@/lib/seo";
 
 export default function NewProjectPage() {
+  // Apply dynamic SEO for new project page
+  useDynamicSEO(pageMetadata.newProject);
   const [filters, setFilters] = useState(null);
   const [templates, setTemplates] = useState([]);
   const [isLoading, setIsLoading] = useState(true);

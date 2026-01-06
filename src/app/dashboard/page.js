@@ -7,9 +7,13 @@ import Slider from "@/components/Dashboard/Slider";
 import MainContent from "@/components/Dashboard/MainContent";
 import { toast } from "sonner";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import { useDynamicSEO, pageMetadata } from "@/lib/seo";
 
 function DashboardContent() {
   const { user } = useAuth();
+  
+  // Apply dynamic SEO for dashboard
+  useDynamicSEO(pageMetadata.dashboard);
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);

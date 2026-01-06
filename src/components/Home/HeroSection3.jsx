@@ -4,6 +4,7 @@ import Image from "next/image";
 import React from "react";
 import { useRouter } from "next/navigation";
 import { FaRocket, FaPlayCircle } from "react-icons/fa";
+import Link from "next/link";
 
 import LogoLoop from "../LogoLoop";
 import {
@@ -60,15 +61,16 @@ const HeroSection3 = () => {
           <div className="flex-1">
             {/* FicLance Logo */}
             <div className="flex justify-between items-center mx-4 my-4">
-              <Image
-                className="md:h-[30px] z-30 md:pl-12 h-[20px] w-auto"
-                src="/FicLancelog.jpeg"
-                alt="FicLance Logo"
-                width={150}
-                height={40}
-                priority
-                quality={95}
-              />
+              <Link href="/" className="flex items-center justify-center group">
+                <Image
+                  src="/Logo2.png"
+                  alt="FicLance"
+                  width={140}
+                  height={48}
+                  className="h-12 ml-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                  priority
+                />
+              </Link>
               <div className="lg:flex hidden  gap-8 mr-10">
                 <button
                   onClick={() => router.push("/dashboard")}
@@ -141,10 +143,12 @@ const HeroSection3 = () => {
                   <FaRocket className="text-lg" />
                   Get Started
                 </button>
-                <button className="border cursor-pointer border-black text-black px-8 py-3 rounded-full hover:bg-gray-100 transition-colors flex items-center justify-center gap-2">
-                  <FaPlayCircle className="text-lg" />
-                  View Demo
-                </button>
+                <Link href="/help-desk">
+                  <button className="border cursor-pointer border-black text-black px-8 py-3 rounded-full hover:bg-gray-100 transition-colors flex items-center justify-center gap-2">
+                    {/* <FaPlayCircle className="text-lg" /> */}
+                    Learn More
+                  </button>
+                </Link>
               </div>
             </div>
           </div>

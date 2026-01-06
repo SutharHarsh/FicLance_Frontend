@@ -3,13 +3,18 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useDynamicSEO, pageMetadata } from "@/lib/seo";
 
 /**
  * Legacy signin redirect
  * Redirects to new login page
+ * SEO Enhancement: Apply signin metadata
  */
 export default function SignInPage() {
   const router = useRouter();
+  
+  // Apply dynamic SEO for signin page
+  useDynamicSEO(pageMetadata.signin);
 
   useEffect(() => {
     router.replace("/auth/login");

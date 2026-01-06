@@ -12,19 +12,24 @@ import Input from "@/components/Auth/Input";
 import Button from "@/components/Auth/Button";
 import { validateEmail, validatePassword } from "@/utils/emojiValidation";
 import PublicRoute from "@/components/PublicRoute";
+import { useDynamicSEO, pageMetadata } from "@/lib/seo";
 
 /**
  * CRITICAL: Wrapped with PublicRoute - authenticated users redirect to dashboard
+ * SEO Enhancement: Apply signup metadata
  */
 function SignUpPageContent() {
   const router = useRouter();
   const { register, authStatus } = useAuth();
-  
+
+  // Apply dynamic SEO for signup page
+  useDynamicSEO(pageMetadata.signup);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -59,7 +64,8 @@ function SignUpPageContent() {
     if (!emailValidation.valid) newErrors.email = emailValidation.error;
 
     const passwordValidation = validatePassword(formData.password);
-    if (!passwordValidation.valid) newErrors.password = passwordValidation.error;
+    if (!passwordValidation.valid)
+      newErrors.password = passwordValidation.error;
 
     if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = "Passwords do not match";
@@ -86,7 +92,10 @@ function SignUpPageContent() {
       }, 1500);
     } catch (error) {
       console.error("Signup error:", error);
-      const msg = error.response?.data?.error?.userMessage || error.message || "Registration failed";
+      const msg =
+        error.response?.data?.error?.userMessage ||
+        error.message ||
+        "Registration failed";
       setServerError(msg);
     } finally {
       setLoading(false);
@@ -126,7 +135,7 @@ function SignUpPageContent() {
     <AuthPageLayout visualSection={<AuthVisualSection type="signup" />}>
       <AuthCard
         title="Create Account"
-        subtitle="Start your freelance journey today"
+        subtitle="Start your FicLance journey today"
       >
         {/* Email/Password Form */}
         <form onSubmit={handleSubmit} className="space-y-4">

@@ -5,6 +5,7 @@ import NotificationDropdown from "./NotificationDropdown";
 import { MdSpaceDashboard } from "react-icons/md";
 import { User } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Header({ isLoading = false }) {
   if (isLoading) {
@@ -25,16 +26,19 @@ export default function Header({ isLoading = false }) {
     <header className="dark:bg-background bg-card border-b border-border">
       <div className="px-4 py-3 flex items-center justify-between">
         <div>
-          <a href="#" className="text-2xl font-['Pacifico'] text-primary">
+          <Link
+            href="/dashboard"
+            className="flex items-center justify-center group"
+          >
             <Image
-              className="md:h-[30px] z-30 h-[20px] w-auto"
-              src="/FicLancelog.jpeg" // ✅ Public folder image reference
-              alt="FicLance Logo"
-              width={100}
-              height={40}
+              src="/Logo2.png"
+              alt="FicLance"
+              width={140}
+              height={48}
+              className="h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
               priority
             />
-          </a>
+          </Link>
         </div>
 
         <div className="flex items-center gap-4">

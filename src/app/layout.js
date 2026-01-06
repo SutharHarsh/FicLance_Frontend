@@ -8,6 +8,13 @@ import BetaBadge from "@/components/BetaBadge";
 import { useEffect } from "react";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { themeInitScript } from "@/lib/themeScript";
+import {
+  siteConfig,
+  brandAssets,
+  defaultKeywords,
+  socialProfiles,
+  generateStructuredData,
+} from "@/lib/seo/metadata";
 
 import { Poppins } from "next/font/google";
 
@@ -18,17 +25,16 @@ const poppins = Poppins({
 });
 
 export default function RootLayout({ children }) {
-  // Centralized SEO data - edit these values for your site
-  const siteName = "Ficlance";
-  const siteUrl = "https://www.ficlance.com"; // update to your real domain
-  const title = "Ficlance — Freelance Marketplace for Top Talent";
-  const description =
-    "Ficlance connects businesses with top freelance talent. Find experts, manage projects, and pay securely — all in one place.";
-  const keywords =
-    "freelance, marketplace, remote jobs, gigs, contractors, Ficlance, hire freelancers, freelance platform";
-  const image = `${siteUrl}/og-image.png`; // update to your real OG image path
-  const locale = "en_US";
-  const author = "Ficlance Team";
+  // Centralized SEO data from metadata configuration
+  const siteName = siteConfig.name;
+  const siteUrl = siteConfig.domain;
+  const title = `${siteConfig.name} - ${siteConfig.tagline}`;
+  const description = siteConfig.description;
+  const keywords = defaultKeywords.join(", ");
+  const image = `${siteUrl}${brandAssets.ogImage}`;
+  const logo = `${siteUrl}${brandAssets.logo}`;
+  const locale = siteConfig.locale;
+  const author = siteConfig.author;
 
   useEffect(() => {
     const handler = (e) => {
@@ -54,14 +60,23 @@ export default function RootLayout({ children }) {
           content="index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#0ea5a4" />
+        <meta name="theme-color" content={siteConfig.themeColor} />
+
+        {/* Additional SEO Meta Tags */}
+        <meta name="application-name" content={siteName} />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content={siteName} />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="mobile-web-app-capable" content="yes" />
 
         {/* Canonical & language/hreflang */}
         <link rel="canonical" href={siteUrl} />
         <link rel="alternate" href={siteUrl} hrefLang="en" />
+        <link rel="alternate" href={siteUrl} hrefLang="x-default" />
 
         {/* Favicons (update paths if needed) */}
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href={brandAssets.favicon} />
         <link
           rel="apple-touch-icon"
           sizes="180x180"
@@ -78,7 +93,8 @@ export default function RootLayout({ children }) {
           type="image/png"
           sizes="16x16"
           href="/favicon-16x16.png"
-        />
+        ></link>
+        <link rel="manifest" href="/site.webmanifest"></link>
 
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
@@ -87,50 +103,51 @@ export default function RootLayout({ children }) {
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
         <meta property="og:image" content={image} />
+        <meta
+          property="og:image:alt"
+          content={`${siteName} - AI-Powered Client Simulation Platform`}
+        />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
         <meta property="og:locale" content={locale} />
 
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content={siteConfig.twitterHandle} />
+        <meta name="twitter:creator" content={siteConfig.twitterHandle} />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
         <meta name="twitter:image" content={image} />
+        <meta
+          name="twitter:image:alt"
+          content={`${siteName} - AI-Powered Client Simulation Platform`}
+        />
 
         {/* Preconnect / fonts (if you use Google Fonts, uncomment and adjust) */}
         {/* <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" /> */}
 
-        {/* Structured Data (JSON-LD) for Organization and WebSite */}
+        {/* Structured Data (JSON-LD) for Organization */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Organization",
-              name: siteName,
-              url: siteUrl,
-              logo: `${siteUrl}/logo.png`,
-              sameAs: [
-                // add social profiles
-                "https://twitter.com/ficlance",
-                "https://www.linkedin.com/company/ficlance",
-              ],
-            }),
+            __html: JSON.stringify(generateStructuredData("organization")),
           }}
         />
+
+        {/* Structured Data (JSON-LD) for WebSite */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "WebSite",
-              url: siteUrl,
-              name: siteName,
-              potentialAction: {
-                "@type": "SearchAction",
-                target: `${siteUrl}/search?q={search_term_string}`,
-                "query-input": "required name=search_term_string",
-              },
-            }),
+            __html: JSON.stringify(generateStructuredData("website")),
+          }}
+        />
+
+        {/* Structured Data (JSON-LD) for Educational Organization */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(generateStructuredData("educational")),
           }}
         />
       </head>

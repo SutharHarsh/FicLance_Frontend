@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FiGlobe, FiArrowLeft, FiSearch } from "react-icons/fi";
 import { motion } from "motion/react";
@@ -35,20 +36,29 @@ export default function HelpDeskLayout({ children, showSearch = true }) {
       <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border">
         <div className="container mx-auto px-4 lg:px-8 h-20 flex items-center justify-between">
           <div className="flex items-center gap-8">
-            <Link
-              href={`/help-desk?lang=${lang}`}
-              className="flex items-center gap-3 group"
-            >
-              <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-primary-foreground font-bold text-xl shadow-[0_0_20px_rgba(var(--primary),0.3)] group-hover:scale-110 transition-transform duration-300">
-                F
-              </div>
-              <span className="text-xl font-black tracking-tight flex items-center gap-1.5 text-foreground font-['Poppins']">
-                FICLANCE{" "}
-                <span className="text-primary font-medium tracking-normal opacity-90 font-['Poppins']">
+            <div className="flex items-center justify-center gap-3 group">
+              <div className="text-xl font-black tracking-tight flex items-center gap-1.5 text-foreground font-['Poppins']">
+                <Link
+                  href="/dashboard"
+                  className="flex items-center justify-center group"
+                >
+                  <Image
+                    src="/Logo2.png"
+                    alt="FicLance"
+                    width={140}
+                    height={48}
+                    className="h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                    priority
+                  />
+                </Link>
+                <Link
+                  href={`/help-desk?lang=${lang}`}
+                  className="text-primary text-md mt-1 ml-2 font-medium tracking-normal opacity-90 font-['Poppins'] hover:opacity-100 transition-opacity"
+                >
                   Help Center
-                </span>
-              </span>
-            </Link>
+                </Link>
+              </div>
+            </div>
           </div>
 
           <div className="flex items-center gap-4 sm:gap-8">
@@ -123,14 +133,14 @@ export default function HelpDeskLayout({ children, showSearch = true }) {
               className="max-w-2xl mx-auto relative group"
             >
               <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-accent/20 rounded-[2rem] blur opacity-75 group-focus-within:opacity-100 transition duration-1000 group-focus-within:duration-200"></div>
-              <form 
+              <form
                 onSubmit={(e) => {
                   e.preventDefault();
                   if (searchQuery.trim()) {
                     // You can implement actual search logic here
                     console.log("Searching for:", searchQuery);
                     // For now, just scroll to content
-                    window.scrollTo({ top: 600, behavior: 'smooth' });
+                    window.scrollTo({ top: 600, behavior: "smooth" });
                   }
                 }}
                 className="relative flex items-center"
@@ -143,7 +153,7 @@ export default function HelpDeskLayout({ children, showSearch = true }) {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full h-20 pl-16 pr-6 rounded-2xl bg-card border border-border group-focus-within:border-primary/50 outline-none text-lg transition-all shadow-2xl placeholder:text-muted-foreground/60 text-foreground font-['Poppins']"
                 />
-                <button 
+                <button
                   type="submit"
                   className="absolute right-3 px-6 py-4 bg-primary text-primary-foreground rounded-xl font-bold text-sm hover:scale-[1.02] active:scale-95 transition-all shadow-lg shadow-primary/20 hidden sm:block font-['Poppins']"
                 >

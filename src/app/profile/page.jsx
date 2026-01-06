@@ -27,6 +27,7 @@ import SecuritySettings from "@/components/Profile/SecuritySettings";
 import Preferences from "@/components/Profile/Preferences";
 import UserProjects from "@/components/Profile/UserProjects";
 import PortfolioEditor from "@/components/Profile/PortfolioContentEditor";
+import { useDynamicSEO, pageMetadata } from "@/lib/seo";
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState(null);
@@ -34,6 +35,9 @@ export default function ProfilePage() {
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState("personal");
   const [isEditing, setIsEditing] = useState(false);
+  
+  // Apply dynamic SEO for profile page
+  useDynamicSEO(pageMetadata.profile);
 
   useEffect(() => {
     fetchProfile();

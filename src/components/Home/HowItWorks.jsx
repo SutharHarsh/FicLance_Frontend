@@ -41,7 +41,7 @@ const HowItWorksCard = ({ icon, title, description, bg }) => (
     <h3 className="text-xl font-semibold text-gray-900 mb-3">{title}</h3>
     <p className="text-gray-600 mb-4">{description}</p>
     <a
-      href="#"
+      href="/help-desk"
       className="text-accent font-medium flex items-center hover:underline"
     >
       Learn More

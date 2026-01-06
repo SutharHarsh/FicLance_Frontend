@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { usePublicPortfolio } from "@/hooks/usePublicPortfolio";
 import { Loader, AlertCircle } from "lucide-react";
 import Link from "next/link";
+import { usePortfolioSEO } from "@/lib/seo";
 
 // Import all premium themes
 import TheQuietProfessional from "@/components/PortfolioV2/Theme01_QuietProfessional";
@@ -40,6 +41,15 @@ const THEMES = {
 export default function SharedPortfolioPage() {
   const { username } = useParams();
   const { portfolioData, isLoading, error } = usePublicPortfolio(username);
+  
+  // Apply dynamic SEO based on portfolio data
+  usePortfolioSEO(portfolioData?.user ? {
+    name: portfolioData.user.name || username,
+    username: username,
+    role: portfolioData.user.profile?.professionalInfo?.role,
+    skills: portfolioData.user.profile?.professionalInfo?.skills,
+    projectCount: portfolioData.completedProjects?.length || 0,
+  } : null);
 
   if (isLoading) {
     return (

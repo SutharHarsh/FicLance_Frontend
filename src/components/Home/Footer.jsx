@@ -28,10 +28,12 @@ const Footer = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-8 lg:gap-12">
             {/* Company Info */}
             <div className="sm:col-span-2 lg:col-span-1 xl:col-span-2">
-              <Link href="/" className="inline-flex items-center mb-6">
-                <span className="text-3xl font-bold bg-gradient-to-r from-[#FFA21F] to-[#FFD54F] bg-clip-text text-transparent">
-                  Ficlance
-                </span>
+              <Link href="/dashboard" className="inline-flex items-center mb-6">
+                <img
+                  src="/Logo2.png"
+                  alt="FicLance - AI-Powered Client Simulation Platform"
+                  className="h-10 w-auto object-contain"
+                />
               </Link>
               <p className="text-slate-300 leading-relaxed mb-8 max-w-md">
                 Building experience before your first opportunity.
@@ -90,7 +92,7 @@ const Footer = () => {
               </h3>
               <ul className="space-y-4">
                 {[
-                  { label: "Dashboard", link: "/dashboard",},
+                  { label: "Dashboard", link: "/dashboard" },
                   { label: "Portfolio", link: "/portfolio" },
                   { label: "Profile", link: "/profile" },
                 ].map(({ label, link }, item) => (
@@ -187,8 +189,7 @@ const Footer = () => {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div className="flex justify-center items-center space-y-4 lg:space-y-0">
               <p className="text-slate-400 text-sm">
-                © 2025 Ficlance. All rights reserved. Built with ❤ for
-                leaders.
+                © 2025 Ficlance. All rights reserved. Built with ❤ for leaders.
               </p>
 
               {/* <div className="flex flex-wrap justify-center lg:justify-end items-center space-x-6 text-sm">

@@ -36,20 +36,19 @@ export function useMessages(initialMessages, conversationId, user) {
     }
 
     // Remove /api/v1 from the URL for socket connection
-    const socketUrl = process.env.NEXT_PUBLIC_API_URL?.replace('/api/v1', '') || 'http://localhost:8080';
-    
-    const socketInstance = io(
-      socketUrl,
-      {
-        path: "/socket.io",
-        withCredentials: true,
-        auth: { token },
-        transports: ["websocket", "polling"],
-        reconnection: true,
-        reconnectionAttempts: 5,
-        reconnectionDelay: 1000,
-      }
-    );
+    const socketUrl =
+      process.env.NEXT_PUBLIC_API_URL?.replace("/api/v1", "") ||
+      "http://localhost:8080";
+
+    const socketInstance = io(socketUrl, {
+      path: "/socket.io",
+      withCredentials: true,
+      auth: { token },
+      transports: ["websocket", "polling"],
+      reconnection: true,
+      reconnectionAttempts: 5,
+      reconnectionDelay: 1000,
+    });
 
     socketInstance.on("connect", () => {
       console.log(
@@ -107,7 +106,7 @@ export function useMessages(initialMessages, conversationId, user) {
               m.type === "github_feedback" &&
               Math.abs(
                 new Date(m.createdAt).getTime() -
-                new Date(message.createdAt).getTime()
+                  new Date(message.createdAt).getTime()
               ) < 5000
           )
         ) {
@@ -187,7 +186,7 @@ export function useMessages(initialMessages, conversationId, user) {
 
   // Initialize messages from props
   useEffect(() => {
-    if (initialMessages.length > 0) {
+    if (initialMessages && initialMessages.length > 0) {
       const isPlaceholder = (m) =>
         m.type === "document_placeholder" ||
         (m.type !== "document" &&
