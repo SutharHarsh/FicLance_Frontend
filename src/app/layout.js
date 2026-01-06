@@ -1,7 +1,7 @@
 import "./globals.css";
 import { Poppins } from "next/font/google";
 import { themeInitScript } from "@/lib/themeScript";
-import { siteConfig, brandAssets } from "@/lib/seo/metadata";
+import { siteConfig, brandAssets, defaultKeywords } from "@/lib/seo/metadata";
 import RootClientLayout from "@/components/layout/RootClientLayout";
 
 const poppins = Poppins({
