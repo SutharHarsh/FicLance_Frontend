@@ -22,23 +22,25 @@ export default function SEOHead({
   const fullTitle = title || `${siteConfig.name} - ${siteConfig.tagline}`;
   const metaDescription = description || siteConfig.description;
   const metaRobots = noIndex ? "noindex, nofollow" : (robots || "index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large");
-  
+
   // Open Graph defaults
   const ogDefaults = {
+    ...openGraph, // Spread first so we can override below
     type: "website",
     siteName: siteConfig.name,
     locale: siteConfig.locale,
+    // Force the static brand OG image for all paths as requested
     image: `${siteConfig.domain}${brandAssets.ogImage}`,
-    ...openGraph,
   };
 
   // Twitter Card defaults
   const twitterDefaults = {
+    ...twitter, // Spread first so we can override below
     card: "summary_large_image",
     site: siteConfig.twitterHandle,
     creator: siteConfig.twitterHandle,
+    // Force the static brand OG image for all paths as requested
     image: `${siteConfig.domain}${brandAssets.ogImage}`,
-    ...twitter,
   };
 
   return (
