@@ -29,14 +29,14 @@ export default function OAuthButtons({ callbackUrl = "/dashboard" }) {
       textColor: "text-gray-700 dark:text-foreground",
       borderColor: "border-gray-300 dark:border-border",
     },
-    {
-      id: "github",
-      name: "GitHub",
-      icon: FaGithub,
-      bgColor: "bg-gray-900 hover:bg-gray-800 dark:bg-gray-800 dark:hover:bg-gray-700",
-      textColor: "text-white",
-      borderColor: "border-gray-900 dark:border-gray-700",
-    },
+    // {
+    //   id: "github",
+    //   name: "GitHub",
+    //   icon: FaGithub,
+    //   bgColor: "bg-gray-900 hover:bg-gray-800 dark:bg-gray-800 dark:hover:bg-gray-700",
+    //   textColor: "text-white",
+    //   borderColor: "border-gray-900 dark:border-gray-700",
+    // },
   ];
 
   return (
