@@ -111,7 +111,7 @@ export default function PersonalInfoForm({
     setSaveStatus(null);
 
     try {
-      const response = await api.patch("/users/me", {
+      const response = await api.put("/users/me", {
         profile: {
           username: formData.username,
           bio: formData.bio,

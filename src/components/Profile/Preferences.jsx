@@ -68,7 +68,7 @@ export default function Preferences({ profile, onSave, isEditing = true }) {
     setSaveStatus(null);
 
     try {
-      const response = await api.patch("/users/me", {
+      const response = await api.put("/users/me", {
         preferences: formData,
       });
 
@@ -178,7 +178,7 @@ export default function Preferences({ profile, onSave, isEditing = true }) {
               <div className="flex justify-between">
                 <span className="text-sm text-foreground">Project Updates</span>
                 <span
-                  className="text-sm font-medium"
+                  // className="text-sm font-medium"
                   className={
                     formData.notifications.projectUpdates
                       ? "text-green-600"

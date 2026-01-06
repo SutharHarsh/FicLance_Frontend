@@ -158,7 +158,7 @@ export default function PortfolioContentEditor({ user, onUpdate }) {
 
             console.log("📦 FINAL PAYLOAD:", JSON.stringify(payload, null, 2));
 
-            const response = await api.patch("/users/me", payload);
+            const response = await api.put("/users/me", payload);
 
             if (response.data.success) {
                 toast.success("Portfolio saved successfully!");

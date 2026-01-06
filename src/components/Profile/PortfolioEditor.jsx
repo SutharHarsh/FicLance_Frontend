@@ -57,7 +57,7 @@ export default function PortfolioEditor({ user, onUpdate }) {
   const handleSave = async () => {
     setLoading(true);
     try {
-      const response = await api.patch("/users/me", {
+      const response = await api.put("/users/me", {
         profile: {
           ...user.profile,
           portfolio: portfolio,

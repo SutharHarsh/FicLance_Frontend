@@ -130,7 +130,7 @@ export default function ProfessionalInfoForm({
     setSaveStatus(null);
 
     try {
-      const response = await api.patch("/users/me", {
+      const response = await api.put("/users/me", {
         profile: {
           preferredTechStack: formData.preferredTechStack,
           careerGoal: formData.careerGoal,
@@ -139,20 +139,42 @@ export default function ProfessionalInfoForm({
         },
       });
 
-      if (response.data.success) {
+      const { data } = response;
+
+      if (data?.success) {
         setSaveStatus("success");
-        onSave && onSave(response.data.data);
+        onSave?.(data.data);
         setTimeout(() => setSaveStatus(null), 3000);
       } else {
         setSaveStatus("error");
-        setErrors({ submit: response.data.message || "Failed to save" });
+        setErrors({
+          submit: data?.message || "Failed to save changes",
+        });
       }
     } catch (error) {
       console.error("Save failed:", error);
+
+      // 🔹 CORS / Network error
+      if (!error.response) {
+        setErrors({
+          submit:
+            "Network error. Please check your connection or try again later.",
+        });
+      }
+      // 🔹 Backend validation error
+      else if (error.response?.data?.errors) {
+        setErrors(error.response.data.errors);
+      }
+      // 🔹 General backend error
+      else {
+        setErrors({
+          submit:
+            error.response?.data?.message ||
+            "Something went wrong. Please try again.",
+        });
+      }
+
       setSaveStatus("error");
-      setErrors({
-        submit: error.response?.data?.message || "Network error occurred",
-      });
     } finally {
       setIsSaving(false);
     }
@@ -181,9 +203,9 @@ export default function ProfessionalInfoForm({
             </label>
             {formData.preferredTechStack.length > 0 ? (
               <div className="flex flex-wrap gap-2">
-                {formData.preferredTechStack.map((tech, index) => (
+                {formData.preferredTechStack.map((tech) => (
                   <div
-                    key={index}
+                    key={`tech-${tech}-view`}
                     className="inline-flex items-center px-3 py-1.5 bg-purple-50 dark:bg-purple-950 border border-purple-200 dark:border-purple-800 text-purple-700 dark:text-purple-400 rounded-full text-sm font-medium"
                   >
                     {tech}
@@ -309,9 +331,9 @@ export default function ProfessionalInfoForm({
 
             {formData.preferredTechStack.length > 0 && (
               <div className="flex flex-wrap gap-2 pt-4">
-                {formData.preferredTechStack.map((tech, index) => (
+                {formData.preferredTechStack.map((tech) => (
                   <div
-                    key={index}
+                    key={`tech-${tech}-edit`}
                     className="inline-flex items-center gap-2 px-3 py-1.5 bg-purple-50 dark:bg-purple-950 border border-purple-200 dark:border-purple-800 text-purple-700 dark:text-purple-400 rounded-full text-sm font-medium group hover:bg-purple-100 dark:hover:bg-purple-900 transition-colors"
                   >
                     {tech}

@@ -2,9 +2,14 @@ import axios from 'axios';
 
 // FORCE LOCALHOST for debugging
 // const API_URL = 'http://localhost:8080/api/v1';
-const API_URL = process.env.NEXT_PUBLIC_API_URL 
+// const API_URL = process.env.NEXT_PUBLIC_API_URL 
 //   ? `${process.env.NEXT_PUBLIC_API_URL}/api/v1`
 //   : 'http://localhost:8080/api/v1';
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL
+  ? `${process.env.NEXT_PUBLIC_API_URL}`
+  : "http://localhost:8080/api/v1";
+
 
 console.log('🔗 API Configuration:', {
   NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
@@ -17,14 +22,15 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  withCredentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  withCredentials: false,
 });
 
 // Request interceptor to add access token
 api.interceptors.request.use(
   (config) => {
     // Access token is dynamically set via setAuthToken helper
-    if (config.url?.includes('/users/me') && config.method === 'patch') {
+    if (config.url?.includes('/users/me') && config.method === 'put') {
       console.log("📡 API REQUEST INTERCEPTOR:", config.url);
       console.log("📦 Payload in Interceptor:", config.data);
     }

@@ -20,7 +20,7 @@ export default function SecuritySettings({ profile }) {
     setTheme(newTheme);
 
     try {
-      await api.patch("/users/me", {
+      await api.put("/users/me", {
         preferences: {
           ...profile.preferences,
           theme: newTheme,

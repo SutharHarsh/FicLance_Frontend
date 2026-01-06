@@ -74,7 +74,7 @@ export default function ProfilePage() {
     try {
       // Note: Backend might use /users/me/avatar/complete
       // but if the component expects a simple direct update, we use PATCH /users/me
-      const response = await api.patch("/users/me", {
+      const response = await api.put("/users/me", {
         avatarUrl: avatarUrl,
       });
 
