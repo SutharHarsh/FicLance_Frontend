@@ -36,11 +36,19 @@ export default function ChatWindow({
 
   // Initialize Socket.io
   useEffect(() => {
-    const token = typeof window !== "undefined" ? localStorage.getItem("ficlance_access_token") : null;
-    const socketUrl = process.env.NEXT_PUBLIC_API_URL?.replace('/api/v1', '') || 'http://localhost:8080';
-    
-    console.log("🔌 [ChatWindow] Initializing socket connection to:", socketUrl);
-    
+    const token =
+      typeof window !== "undefined"
+        ? localStorage.getItem("ficlance_access_token")
+        : null;
+    const socketUrl =
+      process.env.NEXT_PUBLIC_API_URL?.replace("/api/v1", "") ||
+      "http://localhost:8080";
+
+    console.log(
+      "🔌 [ChatWindow] Initializing socket connection to:",
+      socketUrl
+    );
+
     const socketInstance = io(socketUrl, {
       path: "/socket.io",
       withCredentials: true,
@@ -66,7 +74,10 @@ export default function ChatWindow({
     });
 
     socketInstance.on("joined:simulation", ({ simulationId }) => {
-      console.log("✅ [ChatWindow] Successfully joined simulation:", simulationId);
+      console.log(
+        "✅ [ChatWindow] Successfully joined simulation:",
+        simulationId
+      );
     });
 
     socketInstance.on("new_message", (message) => {
@@ -137,14 +148,15 @@ export default function ChatWindow({
           typeof window !== "undefined"
             ? localStorage.getItem("ficlance_access_token")
             : null;
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';
+        const apiUrl =
+          process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api/v1";
         const res = await fetch(
           `${apiUrl}/messages?conversationId=${chatId}&limit=500`,
           {
             headers: {
               ...(token && { Authorization: `Bearer ${token}` }),
             },
-            credentials: 'include',
+            credentials: "include",
           }
         );
 
@@ -233,14 +245,15 @@ export default function ChatWindow({
           : null;
 
       // Use 'conversationId' to match backend expectation
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';
+      const apiUrl =
+        process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api/v1";
       const response = await fetch(`${apiUrl}/messages`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           ...(token && { Authorization: `Bearer ${token}` }),
         },
-        credentials: 'include',
+        credentials: "include",
         body: JSON.stringify({
           conversationId: chatId,
           content: trimmed,

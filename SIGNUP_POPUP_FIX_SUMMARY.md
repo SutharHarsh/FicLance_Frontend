@@ -19,6 +19,7 @@ useEffect(() => {
 ```
 
 **Why it failed:**
+
 1. NextAuth status starts as `"loading"`
 2. Code returns early, never starts timer
 3. When status changes to `"unauthenticated"`, timer starts from 0 again
@@ -48,6 +49,7 @@ useEffect(() => {
 ```
 
 **Key changes:**
+
 1. ✅ Timer starts immediately (not blocked by loading)
 2. ✅ Runs exactly once (empty dependency array)
 3. ✅ Checks latest auth status via `useRef` (no closure trap)
@@ -58,6 +60,7 @@ useEffect(() => {
 ## 🧪 VERIFICATION
 
 ### Test It Now:
+
 1. Open http://localhost:3000
 2. **DO NOT log in**
 3. Open browser console
@@ -65,6 +68,7 @@ useEffect(() => {
 5. ✅ Popup should appear
 
 ### Edge Cases Fixed:
+
 - ✅ Works for first-time visitors
 - ✅ Doesn't show for authenticated users
 - ✅ Shows only once per session
@@ -76,14 +80,14 @@ useEffect(() => {
 
 ## 📊 BEFORE vs AFTER
 
-| Aspect | Before (Broken) | After (Fixed) |
-|--------|----------------|---------------|
-| **Timer starts** | ❌ Blocked by "loading" | ✅ Starts immediately |
-| **Consistency** | ❌ Unpredictable | ✅ Reliable |
-| **Auth check** | ❌ Stale closure value | ✅ Current value via ref |
-| **Re-runs** | ❌ Multiple (resets timer) | ✅ Once only |
-| **Logout reset** | ❌ No | ✅ Yes |
-| **Production ready** | ❌ No | ✅ Yes |
+| Aspect               | Before (Broken)            | After (Fixed)            |
+| -------------------- | -------------------------- | ------------------------ |
+| **Timer starts**     | ❌ Blocked by "loading"    | ✅ Starts immediately    |
+| **Consistency**      | ❌ Unpredictable           | ✅ Reliable              |
+| **Auth check**       | ❌ Stale closure value     | ✅ Current value via ref |
+| **Re-runs**          | ❌ Multiple (resets timer) | ✅ Once only             |
+| **Logout reset**     | ❌ No                      | ✅ Yes                   |
+| **Production ready** | ❌ No                      | ✅ Yes                   |
 
 ---
 
@@ -115,6 +119,7 @@ useEffect(() => {
 This was a **React Hooks closure and dependency array bug**.
 
 The fix demonstrates proper use of:
+
 - `useRef` for accessing latest values in async callbacks
 - Empty dependency arrays for mount-only effects
 - Proper timer cleanup in useEffect

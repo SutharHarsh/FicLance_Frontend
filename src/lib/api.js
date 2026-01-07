@@ -1,26 +1,25 @@
-import axios from 'axios';
+import axios from "axios";
 
 // FORCE LOCALHOST for debugging
 // const API_URL = 'http://localhost:8080/api/v1';
-// const API_URL = process.env.NEXT_PUBLIC_API_URL 
+// const API_URL = process.env.NEXT_PUBLIC_API_URL
 //   ? `${process.env.NEXT_PUBLIC_API_URL}/api/v1`
 //   : 'http://localhost:8080/api/v1';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL
-  ? `${process.env.NEXT_PUBLIC_API_URL.replace(/\/$/, '')}`
+  ? `${process.env.NEXT_PUBLIC_API_URL.replace(/\/$/, "")}`
   : "http://localhost:8080/api/v1";
 
-
-console.log('🔗 API Configuration:', {
+console.log("🔗 API Configuration:", {
   NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
   API_URL,
-  nodeEnv: process.env.NODE_ENV
+  nodeEnv: process.env.NODE_ENV,
 });
 
 const api = axios.create({
   baseURL: API_URL,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
   withCredentials: true,
 });
@@ -29,7 +28,7 @@ const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     // Access token is dynamically set via setAuthToken helper
-    if (config.url?.includes('/users/me') && config.method === 'put') {
+    if (config.url?.includes("/users/me") && config.method === "put") {
       console.log("📡 API REQUEST INTERCEPTOR:", config.url);
       console.log("📦 Payload in Interceptor:", config.data);
     }
@@ -64,7 +63,7 @@ api.interceptors.response.use(
     const originalRequest = error.config;
 
     // Don't intercept refresh endpoint to prevent infinite loops
-    if (originalRequest.url === '/auth/refresh') {
+    if (originalRequest.url === "/auth/refresh") {
       return Promise.reject(error);
     }
 
@@ -78,7 +77,7 @@ api.interceptors.response.use(
           failedQueue.push({ resolve, reject });
         })
           .then((token) => {
-            originalRequest.headers['Authorization'] = 'Bearer ' + token;
+            originalRequest.headers["Authorization"] = "Bearer " + token;
             return api(originalRequest);
           })
           .catch((err) => {
@@ -90,11 +89,11 @@ api.interceptors.response.use(
 
       try {
         console.log("🔄 Token expired, attempting refresh...");
-        const response = await api.post('/auth/refresh');
+        const response = await api.post("/auth/refresh");
         const { access_token } = response.data.data;
 
         setAuthToken(access_token);
-        originalRequest.headers['Authorization'] = 'Bearer ' + access_token;
+        originalRequest.headers["Authorization"] = "Bearer " + access_token;
 
         processQueue(null, access_token);
 
@@ -104,7 +103,7 @@ api.interceptors.response.use(
         console.error("❌ Refresh token failed, logging out");
         processQueue(err, null);
         // Emit logout event when refresh fails
-        window.dispatchEvent(new Event('auth:logout'));
+        window.dispatchEvent(new Event("auth:logout"));
         return Promise.reject(err);
       } finally {
         isRefreshing = false;
@@ -113,12 +112,12 @@ api.interceptors.response.use(
 
     // Preserve backend error messages for display
     if (error.response?.data) {
-      console.error('❌ API Error:', error.response.data);
+      console.error("❌ API Error:", error.response.data);
       // Return structured error with backend message
       const backendError = new Error(
-        error.response.data.error?.message || 
-        error.response.data.message || 
-        error.message
+        error.response.data.error?.message ||
+          error.response.data.message ||
+          error.message
       );
       backendError.response = error.response;
       return Promise.reject(backendError);
@@ -130,9 +129,9 @@ api.interceptors.response.use(
 
 export const setAuthToken = (token) => {
   if (token) {
-    api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   } else {
-    delete api.defaults.headers.common['Authorization'];
+    delete api.defaults.headers.common["Authorization"];
   }
 };
 

@@ -21,12 +21,12 @@ The original implementation had a **FATAL FLAW** in the useEffect dependency arr
 useEffect(() => {
   // Don't show popup if user is authenticated or loading
   if (status === "authenticated" || status === "loading") return;
-  
+
   // ... timer logic
   const timer = setTimeout(() => {
     setIsOpen(true);
   }, 30000);
-  
+
   return () => clearTimeout(timer);
 }, [status]); // ⚠️ PROBLEM: depends on status
 ```
@@ -79,7 +79,7 @@ export default function SignupPopup() {
   useEffect(() => {
     const previousStatus = statusRef.current;
     statusRef.current = status;
-    
+
     // Reset flag when user logs out
     if (previousStatus === "authenticated" && status === "unauthenticated") {
       sessionStorage.removeItem("signup-popup-shown");
@@ -95,13 +95,13 @@ export default function SignupPopup() {
     const timer = setTimeout(() => {
       // Check CURRENT auth status (via ref, not closure)
       const currentStatus = statusRef.current;
-      
+
       // Only show if user is unauthenticated
       if (currentStatus === "authenticated" || currentStatus === "loading") {
         sessionStorage.setItem("signup-popup-shown", "true");
         return;
       }
-      
+
       setIsOpen(true);
       sessionStorage.setItem("signup-popup-shown", "true");
     }, 30000);
@@ -147,6 +147,7 @@ Time 30s:
 ### Edge Cases Handled
 
 **1. User logs in before 30 seconds:**
+
 ```
 Time 15s: User logs in
 ├─ status = "authenticated"
@@ -160,6 +161,7 @@ Time 30s: Timer fires
 ```
 
 **2. User logs out after popup was shown:**
+
 ```
 ├─ status changes: "authenticated" → "unauthenticated"
 ├─ Detect logout in status watcher useEffect
@@ -168,6 +170,7 @@ Time 30s: Timer fires
 ```
 
 **3. User closes popup manually:**
+
 ```
 ├─ User clicks X or presses ESC
 ├─ setIsOpen(false)
@@ -176,6 +179,7 @@ Time 30s: Timer fires
 ```
 
 **4. User navigates away and back:**
+
 ```
 ├─ Component unmounts (timer cleared)
 ├─ Component mounts again
@@ -189,17 +193,20 @@ Time 30s: Timer fires
 ## 🧪 TESTING CHECKLIST
 
 ### Test Case 1: First Visit (Unauthenticated)
+
 - [ ] Visit landing page while logged out
 - [ ] Wait exactly 30 seconds
 - [ ] ✅ Popup should appear
 
 ### Test Case 2: Already Authenticated
+
 - [ ] Log in first
 - [ ] Visit landing page
 - [ ] Wait 30+ seconds
 - [ ] ❌ Popup should NOT appear
 
 ### Test Case 3: Login During Timer
+
 - [ ] Visit landing page while logged out
 - [ ] Wait 15 seconds
 - [ ] Log in via OAuth/credentials
@@ -207,18 +214,21 @@ Time 30s: Timer fires
 - [ ] ❌ Popup should NOT appear
 
 ### Test Case 4: Session Persistence
+
 - [ ] Visit landing page (popup appears after 30s)
 - [ ] Close popup
 - [ ] Refresh page
 - [ ] ❌ Popup should NOT appear again
 
 ### Test Case 5: Logout Reset
+
 - [ ] Complete Test Case 2 (logged in, popup doesn't show)
 - [ ] Log out
 - [ ] Wait 30 seconds
 - [ ] ✅ Popup should appear again
 
 ### Test Case 6: Navigation
+
 - [ ] Visit landing page
 - [ ] Wait 10 seconds
 - [ ] Navigate to /auth/login
@@ -233,6 +243,7 @@ Time 30s: Timer fires
 ## 📊 BEFORE vs AFTER
 
 ### Before (Broken)
+
 ```javascript
 useEffect(() => {
   if (status === "loading") return; // ❌ BLOCKS TIMER
@@ -241,12 +252,14 @@ useEffect(() => {
 ```
 
 **Problems:**
+
 - ❌ Timer never starts (blocked by "loading" status)
 - ❌ Multiple re-runs cause timer resets
 - ❌ Closure captures stale status value
 - ❌ Unreliable behavior
 
 ### After (Fixed)
+
 ```javascript
 useEffect(() => {
   const timer = setTimeout(() => {
@@ -259,6 +272,7 @@ useEffect(() => {
 ```
 
 **Benefits:**
+
 - ✅ Timer starts immediately on mount
 - ✅ Runs exactly once (no re-runs)
 - ✅ Always checks latest auth status via ref
@@ -271,17 +285,20 @@ useEffect(() => {
 ### Production Checklist
 
 1. **Code Review**
+
    - [x] No console.logs in production
    - [x] Proper error handling
    - [x] TypeScript types (if applicable)
    - [x] Clean code structure
 
 2. **Performance**
+
    - [x] No memory leaks (timer cleanup)
    - [x] No unnecessary re-renders
    - [x] Efficient sessionStorage usage
 
 3. **User Experience**
+
    - [x] Popup appears at exactly 30 seconds
    - [x] Respects authentication state
    - [x] One-per-session limit works
@@ -302,6 +319,7 @@ useEffect(() => {
 ### Key Technical Concepts
 
 **1. useRef for Mutable State**
+
 ```javascript
 const statusRef = useRef(status);
 
@@ -311,6 +329,7 @@ const statusRef = useRef(status);
 ```
 
 **2. Empty Dependency Array**
+
 ```javascript
 useEffect(() => {
   // Runs ONCE on mount
@@ -319,6 +338,7 @@ useEffect(() => {
 ```
 
 **3. Closure Scope**
+
 ```javascript
 // BAD: Captures old value
 useEffect(() => {
@@ -336,6 +356,7 @@ useEffect(() => {
 ```
 
 **4. SessionStorage Strategy**
+
 ```javascript
 // Set flag when popup shown
 sessionStorage.setItem("signup-popup-shown", "true");
@@ -362,17 +383,17 @@ analytics.track("signup_popup_timer_started");
 // Popup shown
 analytics.track("signup_popup_shown", {
   time_on_page: 30000,
-  auth_status: "unauthenticated"
+  auth_status: "unauthenticated",
 });
 
 // User signed up via popup
 analytics.track("signup_popup_conversion", {
-  method: "email" | "google" | "github"
+  method: "email" | "google" | "github",
 });
 
 // Popup closed without action
 analytics.track("signup_popup_closed", {
-  time_open: timeOpen
+  time_open: timeOpen,
 });
 ```
 
@@ -401,13 +422,15 @@ analytics.track("signup_popup_closed", {
 **Status**: 🟢 **FIXED AND VERIFIED**
 
 The signup popup now works correctly:
+
 - ✅ Appears after exactly 30 seconds
 - ✅ Only for unauthenticated users
 - ✅ Once per session (until logout)
 - ✅ No memory leaks or performance issues
 - ✅ Production-ready
 
-**Files Modified**: 
+**Files Modified**:
+
 - [src/components/Auth/SignupPopup.jsx](src/components/Auth/SignupPopup.jsx)
 
 **Testing**: Manual testing completed, all edge cases verified

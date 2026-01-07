@@ -7,7 +7,9 @@ import api from "@/lib/api";
 import { toast } from "sonner";
 
 // lazy load heavy pieces
-const ProjectSection = dynamic(() => import("./ProjectSection"), { ssr: false });
+const ProjectSection = dynamic(() => import("./ProjectSection"), {
+  ssr: false,
+});
 const FilterStepper = dynamic(() => import("./FilterStepper"), { ssr: false });
 
 const NewProjectInline = ({ onRequestFullPage }) => {
@@ -20,7 +22,7 @@ const NewProjectInline = ({ onRequestFullPage }) => {
   const fetchTemplates = useCallback(async (filterParams = null) => {
     try {
       setIsLoading(true);
-      
+
       // Build query parameters
       const params = {};
       if (filterParams) {
@@ -28,31 +30,36 @@ const NewProjectInline = ({ onRequestFullPage }) => {
           params.difficulty = filterParams.difficulty;
         }
         if (filterParams.skills && filterParams.skills.length > 0) {
-          params.skills = filterParams.skills.join(',');
+          params.skills = filterParams.skills.join(",");
         }
         if (filterParams.duration && filterParams.duration !== "Any duration") {
           params.duration = filterParams.duration;
         }
       }
 
-      console.log('[NewProjectInline] 📡 API Call - Fetching templates with params:', params);
-      
-      const response = await api.get('/templates', { params });
-      
-      console.log('[NewProjectInline] ✅ API Response received:', {
+      console.log(
+        "[NewProjectInline] 📡 API Call - Fetching templates with params:",
+        params
+      );
+
+      const response = await api.get("/templates", { params });
+
+      console.log("[NewProjectInline] ✅ API Response received:", {
         success: response.data.success,
         count: response.data.data?.length,
-        firstItem: response.data.data?.[0]?.title
+        firstItem: response.data.data?.[0]?.title,
       });
-      
+
       if (response.data.success) {
         const newTemplates = response.data.data;
-        console.log(`[NewProjectInline] 🔄 Setting templates state with ${newTemplates.length} items`);
+        console.log(
+          `[NewProjectInline] 🔄 Setting templates state with ${newTemplates.length} items`
+        );
         setTemplates(newTemplates);
-        
+
         // Verify state update on next tick
         setTimeout(() => {
-          console.log('[NewProjectInline] ✓ State should be updated now');
+          console.log("[NewProjectInline] ✓ State should be updated now");
         }, 0);
       }
     } catch (error) {
@@ -70,7 +77,10 @@ const NewProjectInline = ({ onRequestFullPage }) => {
       const s = JSON.parse(localStorage.getItem("fp_skills") || "null");
       const du = localStorage.getItem("fp_duration");
       if (d || s || du) {
-        console.log('[NewProjectInline] 💾 Loading filters from localStorage:', { d, s, du });
+        console.log(
+          "[NewProjectInline] 💾 Loading filters from localStorage:",
+          { d, s, du }
+        );
         setFilters({
           difficulty: d || "All",
           skills: Array.isArray(s) ? s : [],
@@ -78,11 +88,13 @@ const NewProjectInline = ({ onRequestFullPage }) => {
         });
       } else {
         // No saved filters - fetch all templates
-        console.log('[NewProjectInline] 🆕 No saved filters - fetching all templates');
+        console.log(
+          "[NewProjectInline] 🆕 No saved filters - fetching all templates"
+        );
         fetchTemplates();
       }
     } catch (error) {
-      console.error('[NewProjectInline] Error loading filters:', error);
+      console.error("[NewProjectInline] Error loading filters:", error);
       fetchTemplates();
     }
   }, [fetchTemplates]);
@@ -90,7 +102,10 @@ const NewProjectInline = ({ onRequestFullPage }) => {
   // Refetch templates whenever filters change
   useEffect(() => {
     if (filters !== null) {
-      console.log('[NewProjectInline] 🔍 Filters changed - fetching filtered templates:', filters);
+      console.log(
+        "[NewProjectInline] 🔍 Filters changed - fetching filtered templates:",
+        filters
+      );
       fetchTemplates(filters);
     }
   }, [filters, fetchTemplates]);
@@ -99,7 +114,10 @@ const NewProjectInline = ({ onRequestFullPage }) => {
   const closeFilters = useCallback(() => setFilterModalOpen(false), []);
 
   const handleApplyFilters = useCallback((f) => {
-    console.log('[NewProjectInline] 🎯 Apply Filters clicked - New filters:', f);
+    console.log(
+      "[NewProjectInline] 🎯 Apply Filters clicked - New filters:",
+      f
+    );
     setFilters(f);
     setFilterModalOpen(false);
   }, []);
@@ -119,12 +137,16 @@ const NewProjectInline = ({ onRequestFullPage }) => {
         </div>
       </div>
 
-      <div className={`${filterModalOpen ? "filter-blur pointer-events-none" : ""}`}>
-        <ProjectSection 
-          filters={filters} 
+      <div
+        className={`${
+          filterModalOpen ? "filter-blur pointer-events-none" : ""
+        }`}
+      >
+        <ProjectSection
+          filters={filters}
           templates={templates}
           isLoading={isLoading}
-          onRequestFullPage={onRequestFullPage} 
+          onRequestFullPage={onRequestFullPage}
         />
       </div>
 

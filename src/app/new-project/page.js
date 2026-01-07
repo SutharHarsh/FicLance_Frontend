@@ -129,8 +129,8 @@ export default function NewProjectPage() {
     // page-level wrapper — full viewport height and background
     <div className="min-h-screen bg-gray-50">
       {/* Header with Filter Button */}
-      <div className="bg-white border-b border-gray-200 px-8 py-4">
-        <div className="flex items-center justify-between max-w-7xl mx-auto">
+      <div className="bg-white border-b border-gray-200 px-8">
+        <div className="flex lg:flex-row lg:gap-0 flex-col gap-4 mt-4 items-center justify-between max-w-7xl mx-auto">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">
               Choose a Project

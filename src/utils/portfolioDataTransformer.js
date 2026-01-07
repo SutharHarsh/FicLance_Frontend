@@ -19,29 +19,34 @@ export function transformUserData(user, dashboardData = {}) {
 
   // DEBUG: Inspect incoming projects data for progress field
   if (projects && projects.length > 0) {
-    console.log("Transformation - Incoming Projects:", projects.map(p => ({
-      id: p.id || p._id,
-      title: p.title || p.projectName,
-      progress: p.progress,
-      meta: p.meta
-    })));
+    console.log(
+      "Transformation - Incoming Projects:",
+      projects.map((p) => ({
+        id: p.id || p._id,
+        title: p.title || p.projectName,
+        progress: p.progress,
+        meta: p.meta,
+      }))
+    );
   }
 
   // Merge manual projects with platform projects
-  const manualProjects = (user.profile?.portfolio?.manualProjects || []).map(p => ({
-    id: `manual-${p.name}`,
-    title: p.name,
-    description: p.description,
-    status: p.status || "active",
-    priority: p.priority || "medium",
-    progress: p.progress || 0,
-    deadline: p.deadline,
-    tags: p.techStack ? p.techStack.split(",").map(t => t.trim()) : [],
-    githubUrl: p.githubUrl,
-    liveUrl: p.liveUrl,
-    isManual: true,
-    createdAt: new Date(),
-  }));
+  const manualProjects = (user.profile?.portfolio?.manualProjects || []).map(
+    (p) => ({
+      id: `manual-${p.name}`,
+      title: p.name,
+      description: p.description,
+      status: p.status || "active",
+      priority: p.priority || "medium",
+      progress: p.progress || 0,
+      deadline: p.deadline,
+      tags: p.techStack ? p.techStack.split(",").map((t) => t.trim()) : [],
+      githubUrl: p.githubUrl,
+      liveUrl: p.liveUrl,
+      isManual: true,
+      createdAt: new Date(),
+    })
+  );
 
   const platformProjects = transformProjects(projects);
   const allProjects = [...manualProjects, ...platformProjects];
@@ -87,10 +92,19 @@ export function transformUserData(user, dashboardData = {}) {
     // Stats & Metrics
     stats: {
       totalProjects: allProjects.length,
-      completedProjects: allProjects.filter((p) => p.status === "completed").length || 0,
-      activeProjects: allProjects.filter((p) =>
-        ["active", "in_progress", "created", "requirements_sent", "pending", "running"].includes(p.status)
-      ).length || 0,
+      completedProjects:
+        allProjects.filter((p) => p.status === "completed").length || 0,
+      activeProjects:
+        allProjects.filter((p) =>
+          [
+            "active",
+            "in_progress",
+            "created",
+            "requirements_sent",
+            "pending",
+            "running",
+          ].includes(p.status)
+        ).length || 0,
       badgesCount: badges.length || 0,
       skillsCount: user.profile?.skills?.length || 0,
       experienceYears: calculateYearsOfExperience(user.createdAt),

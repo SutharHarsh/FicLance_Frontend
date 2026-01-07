@@ -104,7 +104,8 @@ export function useGitHubFeedback(
           typeof window !== "undefined"
             ? localStorage.getItem("ficlance_access_token")
             : null;
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';
+        const apiUrl =
+          process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api/v1";
         console.log("🔗 [GitHub] Using API URL for system message:", apiUrl);
         await fetch(`${apiUrl}/messages`, {
           method: "POST",
@@ -112,7 +113,7 @@ export function useGitHubFeedback(
             "Content-Type": "application/json",
             ...(token && { Authorization: `Bearer ${token}` }),
           },
-          credentials: 'include',
+          credentials: "include",
           body: JSON.stringify({
             conversationId,
             content: `✅ GitHub repository submitted successfully\n\n**Repository:** ${url}\n\n Please review this project and give me feedback on the implementation.`,
@@ -149,7 +150,9 @@ export function useGitHubFeedback(
       console.log(feedbackContent);
 
       // Do not optimistically add to UI; rely on socket message:created after DB save
-      console.log("ℹ️ [GitHub] Skipping optimistic UI add; will use socket event");
+      console.log(
+        "ℹ️ [GitHub] Skipping optimistic UI add; will use socket event"
+      );
 
       // Save to database (Chat History)
       try {
@@ -157,7 +160,8 @@ export function useGitHubFeedback(
           typeof window !== "undefined"
             ? localStorage.getItem("ficlance_access_token")
             : null;
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';
+        const apiUrl =
+          process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api/v1";
         console.log("🔗 [GitHub] Using API URL for feedback save:", apiUrl);
         const saveResponse = await fetch(`${apiUrl}/messages`, {
           method: "POST",
@@ -165,7 +169,7 @@ export function useGitHubFeedback(
             "Content-Type": "application/json",
             ...(token && { Authorization: `Bearer ${token}` }),
           },
-          credentials: 'include',
+          credentials: "include",
           body: JSON.stringify({
             conversationId,
             content: feedbackContent,

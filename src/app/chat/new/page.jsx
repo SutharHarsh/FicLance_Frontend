@@ -54,7 +54,8 @@ function NewProjectPageContent() {
           if (!expertise) return "intermediate";
           const lower = expertise.toLowerCase();
           if (lower === "shuffle" || lower === "all") return "intermediate"; // Default to intermediate for shuffle
-          if (["beginner", "intermediate", "advanced"].includes(lower)) return lower;
+          if (["beginner", "intermediate", "advanced"].includes(lower))
+            return lower;
           return "intermediate"; // Fallback
         };
 
@@ -98,36 +99,41 @@ function NewProjectPageContent() {
         router.replace(`/chat/${simulationId}`);
       } catch (error) {
         console.error("Error initializing project:", error);
-        
+
         // Extract error message from API response - ensure it's always a string
         let errorMessage = "Failed to start simulation";
-        
+
         if (error.response?.data) {
           // Try multiple possible error fields
-          errorMessage = String(error.response.data.message || 
-                              error.response.data.error || 
-                              error.response.data.userMessage || 
-                              "Failed to start simulation");
+          errorMessage = String(
+            error.response.data.message ||
+              error.response.data.error ||
+              error.response.data.userMessage ||
+              "Failed to start simulation"
+          );
         } else if (error.message) {
           errorMessage = String(error.message);
         }
-        
+
         // Show error toast with longer duration for limit errors
         if (error.response?.status === 403 || error.response?.status === 401) {
           toast.error(errorMessage, {
             duration: 6000,
             description: "Please sign in again or check your session.",
           });
-          
+
           // If token expired, redirect to login
-          if (errorMessage.toLowerCase().includes("token") || errorMessage.toLowerCase().includes("expired")) {
+          if (
+            errorMessage.toLowerCase().includes("token") ||
+            errorMessage.toLowerCase().includes("expired")
+          ) {
             setTimeout(() => router.replace("/auth/login"), 2000);
             return;
           }
         } else {
           toast.error(errorMessage);
         }
-        
+
         router.replace("/new-project?error=initialization-failed");
       } finally {
         // Allow retries only if we failed before removing pendingProject

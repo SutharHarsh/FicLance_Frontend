@@ -6,13 +6,16 @@ import { useAuth } from "@/contexts/AuthContext";
 
 /**
  * ProtectedRoute Component - Guards protected pages from unauthorized access
- * 
+ *
  * CRITICAL FIX: Immediate redirect for unauthenticated users
  * - Uses explicit authStatus for clean state management
  * - Redirects happen via router.replace (no browser history)
  * - No infinite loading states
  */
-export default function ProtectedRoute({ children, redirectTo = "/auth/login" }) {
+export default function ProtectedRoute({
+  children,
+  redirectTo = "/auth/login",
+}) {
   const { authStatus } = useAuth();
   const router = useRouter();
 
@@ -30,7 +33,9 @@ export default function ProtectedRoute({ children, redirectTo = "/auth/login" })
       <div className="flex min-h-screen items-center justify-center bg-background">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-sm text-muted-foreground">Checking authentication...</p>
+          <p className="text-sm text-muted-foreground">
+            Checking authentication...
+          </p>
         </div>
       </div>
     );

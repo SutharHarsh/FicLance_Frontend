@@ -6,7 +6,12 @@ import { RiDownloadLine, RiAddLine } from "react-icons/ri";
 import PropTypes from "prop-types";
 import Link from "next/link";
 
-export default function WelcomeSection({ username = "Alex", date = "June 29, 2025", day = "Sunday", onOpenNewProject }) {
+export default function WelcomeSection({
+  username = "Alex",
+  date = "June 29, 2025",
+  day = "Sunday",
+  onOpenNewProject,
+}) {
   const newProjectButton = (
     <button
       type="button"
@@ -14,7 +19,10 @@ export default function WelcomeSection({ username = "Alex", date = "June 29, 202
       aria-label="Open new project"
       className="bg-accent dark:bg-primary text-foreground dark:text-black dark:hover:bg-primary/80 px-4 py-2 rounded-lg text-sm font-medium hover:bg-accent/80 transition flex items-center justify-center sm:justify-start whitespace-nowrap w-full sm:w-auto"
     >
-      <div className="w-5 h-5 flex items-center justify-center mr-2" aria-hidden>
+      <div
+        className="w-5 h-5 flex items-center justify-center mr-2"
+        aria-hidden
+      >
         <RiAddLine />
       </div>
       New Project
@@ -24,8 +32,12 @@ export default function WelcomeSection({ username = "Alex", date = "June 29, 202
   return (
     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
       <div>
-        <h1 className="text-xl sm:text-2xl font-bold text-foreground">Welcome back, {username}!</h1>
-        <p className="text-sm sm:text-base text-muted-foreground">{date} | {day}</p>
+        <h1 className="text-xl sm:text-2xl font-bold text-foreground">
+          Welcome back, {username}!
+        </h1>
+        <p className="text-sm sm:text-base text-muted-foreground">
+          {date} | {day}
+        </p>
       </div>
 
       <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full sm:w-auto">
@@ -42,7 +54,10 @@ export default function WelcomeSection({ username = "Alex", date = "June 29, 202
         {onOpenNewProject ? (
           newProjectButton
         ) : (
-          <Link href="/new-project" className="flex items-center w-full sm:w-auto">
+          <Link
+            href="/new-project"
+            className="flex items-center w-full sm:w-auto"
+          >
             {newProjectButton}
           </Link>
         )}

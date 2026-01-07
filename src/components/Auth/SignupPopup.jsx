@@ -17,7 +17,11 @@ import Button from "@/components/Auth/Button";
 export default function SignupPopup() {
   const router = useRouter();
   const { user, loading } = useAuth();
-  const status = loading ? "loading" : user ? "authenticated" : "unauthenticated";
+  const status = loading
+    ? "loading"
+    : user
+    ? "authenticated"
+    : "unauthenticated";
   const statusRef = useRef(status);
   const [isOpen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState({
@@ -269,7 +273,11 @@ export default function SignupPopup() {
                 required
               />
 
-              <Button type="submit" loading={isSubmitting} disabled={isSubmitting}>
+              <Button
+                type="submit"
+                loading={isSubmitting}
+                disabled={isSubmitting}
+              >
                 Login
               </Button>
             </form>
