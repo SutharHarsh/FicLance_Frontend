@@ -16,15 +16,15 @@ export default function AuthPageLayout({ children, visualSection }) {
         <div className="flex-1 flex items-center justify-center p-4 sm:p-6 lg:p-8 xl:p-16 order-2 lg:order-1">
           <div className="w-full max-w-md">
             {/* Logo at top on mobile */}
-            <div className="lg:hidden mb-8 text-center">
+            {/* <div className="lg:hidden mb-8 text-center">
               <Link href="/" className="inline-block">
                 <img
                   src="/FicLancelog.jpeg"
                   alt="FicLance Logo"
-                  className="h-8 w-auto mx-auto"
+                  className="h-8 w-auto mx-auto bg-[#FFA21F]"
                 />
               </Link>
-            </div>
+            </div> */}
             {children}
           </div>
         </div>

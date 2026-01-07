@@ -27,7 +27,7 @@ const PriceSection = () => {
 
   return (
     <section
-      className="bg-white py-16 md:mx-16 mx-6 px-4 sm:px-6 lg:px-8"
+      className="bg-white py-16 md:mx-16 mx-4 sm:mx-16 px-4 sm:px-6 lg:px-8"
       id="pricing"
     >
       {/* Header */}

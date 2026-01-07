@@ -60,14 +60,14 @@ const HeroSection3 = () => {
         <div className="home-section z-0 lg:h-screen h-[1000px] overflow-hidden relative flex flex-col justify-center lg:flex-row lg:justify-end">
           <div className="flex-1">
             {/* FicLance Logo */}
-            <div className="flex justify-between items-center mx-4 my-4">
+            <div className="flex justify-center md:justify-between items-center mx-4 my-4">
               <Link href="/" className="flex items-center justify-center group">
                 <Image
                   src="/Logo2.png"
                   alt="FicLance"
                   width={140}
                   height={48}
-                  className="h-12 ml-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                  className="h-12 md:ml-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
                   priority
                 />
               </Link>
@@ -85,7 +85,7 @@ const HeroSection3 = () => {
                   Login
                 </button>
               </div>
-              <div className="md:hidden">☰</div>
+              {/* <div className="md:hidden">☰</div> */}
             </div>
 
             {/* Circular Text - Desktop & Laptop */}
@@ -120,8 +120,8 @@ const HeroSection3 = () => {
             </div>
 
             {/* HeroSection Text */}
-            <div className="mt-12 lg:mt-[12vh] lg:ml-16 flex flex-col items-center lg:items-start gap-5">
-              <h1 className=" text-center text-black lg:text-left lg:text-[10vh] text-[40px] opacity-80 leading-[98%] tracking-[-0.01em]">
+            <div className="mt-8 lg:mt-[12vh] lg:ml-16 flex flex-col items-center lg:items-start gap-5">
+              <h1 className=" text-center text-black lg:text-left lg:text-[10vh] text-[35px] sm:text-[40px] opacity-80 leading-[98%] tracking-[-0.01em]">
                 Your <span className="font-bold text-[#FFA21F]">Journey</span>{" "}
                 from <br />
                 <span className="bg-gradient-to-b from-amber-500 to-amber-200 bg-clip-text text-transparent font-bold">
@@ -130,7 +130,7 @@ const HeroSection3 = () => {
                 to <span className="font-bold underline">Leader</span> <br />
                 starts here.
               </h1>
-              <p className="text-[16px] text-center text-gray-800 lg:text-left mx-2 sm:w-[450px] opacity-60">
+              <p className="text-[14px] sm:text-[16px] text-center text-gray-800 lg:text-left mx-2 sm:w-[450px] opacity-60">
                 Where skills meet proof, AI-powered client simulations that turn
                 learners into portfolio-ready professionals.
               </p>
@@ -144,7 +144,7 @@ const HeroSection3 = () => {
                   Get Started
                 </button>
                 <Link href="/help-desk">
-                  <button className="border cursor-pointer border-black text-black px-8 py-3 rounded-full hover:bg-gray-100 transition-colors flex items-center justify-center gap-2">
+                  <button className="border cursor-pointer border-black text-black px-8 py-3 w-60 sm:w-48 rounded-full hover:bg-gray-100 transition-colors flex items-center justify-center gap-2">
                     {/* <FaPlayCircle className="text-lg" /> */}
                     Learn More
                   </button>
@@ -170,8 +170,8 @@ const HeroSection3 = () => {
           </div>
 
           {/* Tablet/Mobile: Image inside the orange div */}
-          <div className="lg:hidden absolute bg-[#FFA21F] top-[70vh] sm:top-[460px] z-0 w-[150%] -left-[20%] h-[350px] rounded-[50px] -rotate-[16deg] flex justify-center items-center">
-            <div className="mb-25 rotate-[16deg] mr-5 -mt-16 relative w-[425px] h-[350px]">
+          <div className="lg:hidden absolute bg-[#FFA21F] top-[80vh] sm:top-[460px] z-0 w-[150%] -left-[20%] h-[350px] rounded-[50px] -rotate-[16deg] flex justify-center items-center">
+            <div className="mb-30 rotate-[16deg] mr-5 -mt-16 relative w-[425px] h-[350px]">
               <Image
                 className="object-contain"
                 src="/new_img.png"
