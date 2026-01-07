@@ -6,7 +6,6 @@ import FilterStepper from "@/components/NewProject/FilterStepper";
 import api from "@/lib/api";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { isBetaMode } from "@/lib/config";
 import { useDynamicSEO, pageMetadata } from "@/lib/seo";
 
 export default function NewProjectPage() {
@@ -16,6 +15,9 @@ export default function NewProjectPage() {
   const [templates, setTemplates] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filterModalOpen, setFilterModalOpen] = useState(false);
+  const [limitReached, setLimitReached] = useState(false);
+  const [limitMessage, setLimitMessage] = useState("");
+  const [checkingLimits, setCheckingLimits] = useState(true);
 
   const router = useRouter();
 
@@ -102,6 +104,40 @@ export default function NewProjectPage() {
     }
   }, [fetchTemplates]);
 
+  // Check project limits on mount
+  useEffect(() => {
+    const checkLimits = async () => {
+      try {
+        console.log("[NewProject] 🔍 Checking project limits...");
+        setCheckingLimits(true);
+        const response = await api.get("/limits/can-create-project");
+        console.log("[NewProject] ✅ Limits response:", response.data);
+        const { allowed, reason } = response.data.data;
+
+        console.log("[NewProject] Allowed:", allowed, "Reason:", reason);
+        if (!allowed) {
+          console.log("[NewProject] ❌ Limit reached, showing error UI");
+          setLimitReached(true);
+          setLimitMessage(
+            reason ||
+              "Project limit reached. Please complete an existing project first."
+          );
+        } else {
+          console.log("[NewProject] ✅ User can create project");
+        }
+      } catch (error) {
+        console.error("[NewProject] ❌ Failed to check limits:", error);
+        console.error("[NewProject] Error details:", error.response?.data);
+        // Don't block on error - let backend validation handle it
+      } finally {
+        setCheckingLimits(false);
+      }
+    };
+
+    // Always check limits (removed beta mode bypass as requested)
+    checkLimits();
+  }, []);
+
   // Refetch templates whenever filters change
   useEffect(() => {
     if (filters !== null) {
@@ -135,15 +171,6 @@ export default function NewProjectPage() {
             <h1 className="text-2xl font-bold text-gray-900">
               Choose a Project
             </h1>
-            {isBetaMode() && (
-              <p className="text-sm text-yellow-600 font-medium mt-1 flex items-center gap-2">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-yellow-500"></span>
-                </span>
-                Beta Mode: Unlimited projects & all templates unlocked!
-              </p>
-            )}
           </div>
           <div className="flex items-center gap-4">
             <button
@@ -176,13 +203,71 @@ export default function NewProjectPage() {
         </div>
       </div>
 
-      {/* Render ProjectSection full-bleed and full-height */}
-      <ProjectSection
-        filters={filters}
-        templates={templates}
-        isLoading={isLoading}
-        className="min-h-screen"
-      />
+      {/* Render ProjectSection or Error State */}
+      {checkingLimits ? (
+        <div className="flex items-center justify-center min-h-[60vh]">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto"></div>
+            <p className="mt-4 text-gray-600">Checking project limits...</p>
+          </div>
+        </div>
+      ) : limitReached ? (
+        <div className="max-w-4xl mx-auto p-8 mt-12">
+          <div className="bg-red-50 border-2 border-red-200 rounded-xl p-8 shadow-lg">
+            <div className="flex items-start gap-4">
+              <div className="flex-shrink-0">
+                <svg
+                  className="h-12 w-12 text-red-500"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                  />
+                </svg>
+              </div>
+              <div className="flex-1">
+                <h2 className="text-2xl font-bold text-red-900 mb-3">
+                  Project Limit Reached
+                </h2>
+                <p className="text-red-800 text-lg mb-6">{limitMessage}</p>
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => router.push("/dashboard")}
+                    className="bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors flex items-center gap-2"
+                  >
+                    <svg
+                      className="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                      />
+                    </svg>
+                    Back to Dashboard
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <ProjectSection
+          filters={filters}
+          templates={templates}
+          isLoading={isLoading}
+          className="min-h-screen"
+        />
+      )}
 
       {/* Filter Modal */}
       <FilterStepper
