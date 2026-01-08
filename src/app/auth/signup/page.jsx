@@ -36,12 +36,8 @@ function SignUpPageContent() {
   const [serverError, setServerError] = useState("");
   const [success, setSuccess] = useState(false);
 
-  // CRITICAL: Redirect to dashboard when authentication succeeds
-  useEffect(() => {
-    if (authStatus === "authenticated") {
-      router.push("/dashboard");
-    }
-  }, [authStatus, router]);
+  // Note: After successful signup, user is redirected to login page
+  // No automatic dashboard redirect on signup
 
   // Handle input changes
   const handleChange = (e) => {
@@ -85,18 +81,18 @@ function SignUpPageContent() {
     setLoading(true);
 
     try {
-      await register(formData.name, formData.email, formData.password);
-      setSuccess(true);
-      setTimeout(() => {
-        router.push("/auth/login?registered=true");
-      }, 1500);
+      const success = await register(formData.name, formData.email, formData.password);
+      if (success) {
+        // Show success message and redirect to login
+        setSuccess(true);
+        setTimeout(() => {
+          router.push("/auth/login?registered=true");
+        }, 1500);
+      }
+      // Note: Errors are already shown via toast in AuthContext
     } catch (error) {
       console.error("Signup error:", error);
-      const msg =
-        error.response?.data?.error?.userMessage ||
-        error.message ||
-        "Registration failed";
-      setServerError(msg);
+      // Error handling is done in AuthContext
     } finally {
       setLoading(false);
     }

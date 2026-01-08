@@ -79,6 +79,21 @@ export function validatePassword(password, minLength = 8) {
     return { valid: false, error: `Password must be at least ${minLength} characters` };
   }
 
+  // Check for at least one uppercase letter
+  if (!/[A-Z]/.test(trimmedPassword)) {
+    return { valid: false, error: 'Password must contain at least one uppercase letter' };
+  }
+
+  // Check for at least one lowercase letter
+  if (!/[a-z]/.test(trimmedPassword)) {
+    return { valid: false, error: 'Password must contain at least one lowercase letter' };
+  }
+
+  // Check for at least one number
+  if (!/\d/.test(trimmedPassword)) {
+    return { valid: false, error: 'Password must contain at least one number' };
+  }
+
   return { valid: true, error: null };
 }
 

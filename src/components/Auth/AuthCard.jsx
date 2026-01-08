@@ -12,7 +12,7 @@ export default function AuthCard({ children, title, subtitle }) {
     <div className="w-full">
       {/* Logo at top of auth card */}
       <div className="mb-6 flex justify-center">
-        <Link href="/dashboard">
+        <Link href="/">
           <Image
             src="/Logo2.png"
             alt="FicLance - AI-Powered Client Simulation Platform"

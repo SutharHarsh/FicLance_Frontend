@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import {
   FaTwitter,
@@ -15,8 +16,56 @@ import {
   FaMapMarkerAlt,
   FaArrowRight,
 } from "react-icons/fa";
+import { toast } from "sonner";
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubscribe = async (e) => {
+    e.preventDefault();
+
+    // Validate email
+    if (!email || !email.trim()) {
+      toast.error("Please enter your email address");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/newsletter/subscribe`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: email.trim() }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        toast.success("Thank you for subscribing! 🎉");
+        setEmail(""); // Clear the input
+      } else {
+        toast.error(data.error?.message || "Subscription failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Newsletter subscription error:", error);
+      toast.error("Something went wrong. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   return (
     <footer className="bg-gradient-to-br from-[#1E1E1E] via-slate-950 to-slate-900 text-white relative overflow-hidden">
       {/* Background Pattern */}
@@ -30,7 +79,7 @@ const Footer = () => {
             <div className="sm:col-span-2 lg:col-span-1 xl:col-span-2">
               <Link href="/dashboard" className="inline-flex items-center mb-6">
                 <img
-                  src="/Logo2.png"
+                  src="/Logo2-Invert.png"
                   alt="FicLance - AI-Powered Client Simulation Platform"
                   className="h-10 w-auto object-contain"
                 />
@@ -93,7 +142,7 @@ const Footer = () => {
               <ul className="space-y-4">
                 {[
                   { label: "Dashboard", link: "/dashboard" },
-                  { label: "Portfolio", link: "/portfolio" },
+                  { label: "Portfolio", link: "/dashboard" },
                   { label: "Profile", link: "/profile" },
                 ].map(({ label, link }, item) => (
                   <li key={item}>
@@ -118,23 +167,39 @@ const Footer = () => {
                 <div className="absolute -bottom-2 left-0 w-8 h-0.5 bg-gradient-to-r from-[#FF8C22] to-[#FFD54F]"></div>
               </h3>
               <ul className="space-y-4">
-                {[
-                  { label: "Help Desk", link: "/help-desk" },
-                  { label: "Plans", link: "/pricing" },
-                  { label: "Demo Video", link: "#" },
-                ].map(({ label, link }, item) => (
-                  <li key={item}>
-                    <Link
-                      href={link}
-                      className="text-slate-300 hover:text-white transition-colors duration-200 flex items-center group text-sm"
-                    >
-                      <span className="group-hover:translate-x-1 transition-transform duration-200">
-                        {label}
-                      </span>
-                      <FaArrowRight className="w-3 h-3 ml-2 opacity-0 group-hover:opacity-100 transition-all duration-200" />
-                    </Link>
-                  </li>
-                ))}
+                <li>
+                  <Link
+                    href="/help-desk"
+                    className="text-slate-300 hover:text-white transition-colors duration-200 flex items-center group text-sm"
+                  >
+                    <span className="group-hover:translate-x-1 transition-transform duration-200">
+                      Help Desk
+                    </span>
+                    <FaArrowRight className="w-3 h-3 ml-2 opacity-0 group-hover:opacity-100 transition-all duration-200" />
+                  </Link>
+                </li>
+                <li>
+                  <button
+                    onClick={() => {
+                      const pricingSection = document.getElementById("pricing");
+                      if (pricingSection) {
+                        pricingSection.scrollIntoView({
+                          behavior: "smooth",
+                          block: "start",
+                        });
+                      } else {
+                        // If not on landing page, navigate to root and then scroll
+                        window.location.href = "/#pricing";
+                      }
+                    }}
+                    className="text-slate-300 hover:text-white transition-colors duration-200 flex items-center group text-sm"
+                  >
+                    <span className="group-hover:translate-x-1 transition-transform duration-200">
+                      Plans
+                    </span>
+                    <FaArrowRight className="w-3 h-3 ml-2 opacity-0 group-hover:opacity-100 transition-all duration-200" />
+                  </button>
+                </li>
               </ul>
             </div>
 
@@ -150,23 +215,28 @@ const Footer = () => {
               </p>
 
               <div className="mb-8 space-y-3">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="w-full bg-slate-800/50 text-white px-4 py-3 rounded-xl border border-slate-700 focus:outline-none focus:ring-2 focus:ring-[#FF8C22] focus:border-transparent transition-all duration-200 backdrop-blur-sm"
-                />
-                <button
-                  type="button"
-                  onClick={() => console.log("Subscribe clicked")}
-                  className="w-full bg-gradient-to-r from-[#FF8C22] to-[#673AB7] text-white px-6 py-3 rounded-xl font-medium hover:from-[#ff8a1d] hover:to-[#5d31a8] transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-xl flex items-center justify-center"
-                >
-                  Subscribe
-                  <FaArrowRight className="ml-2 w-4 h-4" />
-                </button>
+                <form onSubmit={handleSubscribe} className="space-y-3">
+                  <input
+                    type="email"
+                    placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={isSubmitting}
+                    className="w-full bg-slate-800/50 text-white px-4 py-3 rounded-xl border border-slate-700 focus:outline-none focus:ring-2 focus:ring-[#FF8C22] focus:border-transparent transition-all duration-200 backdrop-blur-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                  />
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full bg-gradient-to-r from-[#FF8C22] to-[#673AB7] text-white px-6 py-3 rounded-xl font-medium hover:from-[#ff8a1d] hover:to-[#5d31a8] transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-xl flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                  >
+                    {isSubmitting ? "Subscribing..." : "Subscribe"}
+                    {!isSubmitting && <FaArrowRight className="ml-2 w-4 h-4" />}
+                  </button>
+                </form>
               </div>
 
               {/* Payment Methods */}
-              <div className="border-t border-slate-700 pt-6">
+              {/* <div className="border-t border-slate-700 pt-6">
                 <p className="text-slate-400 text-xs mb-3 uppercase tracking-wider">
                   Secure Payments
                 </p>
@@ -179,7 +249,7 @@ const Footer = () => {
                     )
                   )}
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

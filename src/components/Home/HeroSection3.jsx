@@ -73,7 +73,7 @@ const HeroSection3 = () => {
               </Link>
               <div className="lg:flex hidden  gap-8 mr-10">
                 <button
-                  onClick={() => router.push("/dashboard")}
+                  onClick={() => router.push("/auth/signup")}
                   className="text-xl font-semibold text-gray-800 hover:text-[#7529c6] transition-all duration-200 ease-in-out"
                 >
                   Start Simulation
@@ -137,7 +137,7 @@ const HeroSection3 = () => {
 
               <div className="flex sm:flex-row flex-col gap-4">
                 <button
-                  onClick={() => router.push("/dashboard")}
+                  onClick={() => router.push("/auth/signup")}
                   className="bg-black cursor-pointer text-white px-8 py-3 rounded-full md:mr-4 w-60 sm:w-48 hover:bg-gray-800 transition-colors flex items-center justify-center gap-2"
                 >
                   <FaRocket className="text-lg" />

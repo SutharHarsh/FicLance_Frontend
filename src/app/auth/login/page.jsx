@@ -99,8 +99,12 @@ function LoginPageContent() {
     setLoading(true);
 
     try {
-      await login(formData.email, formData.password);
-      // Login successful, redirect handled by context
+      const success = await login(formData.email, formData.password);
+      if (!success) {
+        // Login failed - error already shown via toast in AuthContext
+        setServerError("Invalid email or password. Please try again.");
+      }
+      // If successful, redirect handled by useEffect watching authStatus
     } catch (error) {
       console.error("Login error:", error);
       const msg = error.response?.data?.error?.userMessage || error.message || "Invalid credentials";

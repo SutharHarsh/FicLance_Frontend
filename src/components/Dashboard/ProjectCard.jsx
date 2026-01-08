@@ -130,14 +130,14 @@ const ProjectCard = ({
                 Progress
               </span>
               <span className="text-xs font-bold text-gray-900 dark:text-gray-100 tabular-nums px-2 py-0.5 rounded-md">
-                {progress}%
+                {Math.round(progress)}%
               </span>
             </div>
 
             <div className="relative w-full bg-gray-100 dark:bg-slate-700/50 rounded-full h-1.5 overflow-hidden">
               <div
                 className={`${theme.progress} h-1.5 rounded-full transition-all duration-1000 ease-out relative`}
-                style={{ width: `${progress}%` }}
+                style={{ width: `${Math.round(progress)}%` }}
               >
                 {/* Subtle shine effect */}
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer" />

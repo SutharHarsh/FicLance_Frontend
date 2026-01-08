@@ -72,9 +72,14 @@ export default function MainContent({ onMenuClick, data, isLoading, user }) {
 
   // 1. Calculate Active & Completed based on real activity status
   // Assuming 'completed' is the status key for finished projects
-  const activeCount = activity.filter((item) =>
-    ["in_progress", "requirements_sent", "created"].includes(item.status)
-  ).length;
+  // IMPORTANT: Exclude projects with passed deadlines from active count
+  const now = Date.now();
+  const activeCount = activity.filter((item) => {
+    const isActiveStatus = ["in_progress", "requirements_sent", "created"].includes(item.status);
+    const hasPassedDeadline = item.deadlineTimestamp && item.deadlineTimestamp < now;
+    // Only count as active if status is active AND deadline hasn't passed
+    return isActiveStatus && !hasPassedDeadline;
+  }).length;
 
   const completedCount = activity.filter(
     (item) => item.status === "completed"

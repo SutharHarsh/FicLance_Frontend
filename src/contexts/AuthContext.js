@@ -135,26 +135,31 @@ export function AuthProvider({ children }) {
         email,
         password,
       });
-      const { user, access_token } = response.data.data;
 
-      // Update auth state
-      setUser(user);
-      setAccessToken(access_token);
-      setAuthToken(access_token);
-      setAuthStatus("authenticated");
-      try {
-        localStorage.setItem("ficlance_user", JSON.stringify(user));
-        localStorage.setItem("ficlance_access_token", access_token);
-      } catch { }
-
-      toast.success("Account created successfully");
-
-      // Don't navigate here - let the calling component handle it
+      // Registration successful - do NOT auto-login
+      // User should be redirected to login page to sign in
+      toast.success("Account created successfully! Please log in.");
 
       return true;
     } catch (error) {
       console.error("Registration failed", error);
-      toast.error(error.response?.data?.message || "Registration failed");
+      
+      // Extract specific validation errors from backend
+      const backendErrors = error.response?.data?.error?.details;
+      if (backendErrors && Array.isArray(backendErrors) && backendErrors.length > 0) {
+        // Show the first specific error (most relevant)
+        const firstError = backendErrors[0];
+        if (firstError && firstError.message) {
+          toast.error(firstError.message);
+          return false;
+        }
+      }
+      
+      // Fallback to general error message
+      const errorMessage = error.response?.data?.error?.userMessage || 
+                          error.response?.data?.message || 
+                          "Registration failed";
+      toast.error(errorMessage);
       return false;
     }
   }, []);
